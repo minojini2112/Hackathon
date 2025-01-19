@@ -1,0 +1,43 @@
+generator client {
+  provider          = "prisma-client-js"
+  shadowDatabaseUrl = "postgresql://neondb_owner:2GhDjNMf0Hxs@localhost:5432/shadow_db"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+  role     String
+}
+
+model Profile {
+  id              Int     @id @default(autoincrement())
+  user_id         Int     @unique
+  name            String
+  department      String
+  year            String
+  section         String
+  register_number String
+  roll_no         String
+  staff_incharge  String
+  class_incharge  String
+  placement_head  String
+  batch           String
+  image           String @default("null")
+}
+
+model Participation {
+  id               Int    @id @default(autoincrement())
+  user_id          Int
+  competition_name String
+  college          String
+  date             String
+  certificates     String
+  report           String
+  year             String
+}
