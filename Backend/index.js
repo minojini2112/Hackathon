@@ -228,6 +228,69 @@ app.get("/getparticipation/:user_id",async (req,res)=>{
   
 });
 
+app.post("/addPost",upload.fields([{ name: 'image', maxCount: 5 }, { name: 'document', maxCount: 1 }]),async(req,res)=>{
+  const data = req.body;
+
+  const imageUrls = req.files['image']
+  ? req.files['image'].map(file => file.path).join(', ')
+  : '';
+
+const documentUrl = req.files['document'] && req.files['document'][0] ? req.files['document'][0].path : null;
+
+  try{
+    const postData = await prisma.post.create({
+      data:{
+        staff_id :parseInt(data.staff_id),
+        description: data.description,
+        link: data.link,
+        fromDate: data.fromDate,
+        toDate:data.toDate,
+        registrationLimit: data.registrationLimit,
+        document: documentUrl,
+        image:imageUrls
+      }
+    });
+    return res.status(200).json({message:"Post created successfully",data:postData});
+  }catch(error){
+    console.log("An error occured",error);
+    return res.status(500).json({message:"An error occured",data:error});
+  }
+});
+
+app.get("/getallPost", async(req,res)=>{
+ try{
+  const postData = await prisma.post.findMany();
+  return res.status(200).json({message:"All post Details fetched",data: postData});
+ }catch(error){
+  console.log("An error occured",error);
+  return res.status(500).json({message:"An error occured",data: error});
+ }
+});
+
+app.get("/getindividualPost/:post_id", async(req,res)=>{
+const {post_id} = req.params;
+try{
+  const postData = await prisma.post.findUnique({
+    where:{
+      post_id : parseInt(post_id),
+    },
+  });
+  return res.status(200).json({message:"Post details fetched",data:postData});
+}catch(error){
+  console.log("An error occured",error);
+  return res.status(500).json({message:"An error occured",data: error});
+ }
+});
+
+app.post("/studentPost", async(req,res)=>{
+   const data = req.body;
+   try{
+
+   }catch(error){
+    console.log("An error occured",error);
+    return res.status(500).json({message:"An error occured",data:error});
+   }
+});
 
 app.listen(3005, () => {
   console.log("Server is running on port 3005");

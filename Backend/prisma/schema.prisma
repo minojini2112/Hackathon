@@ -41,3 +41,22 @@ model Participation {
   report           String
   year             String
 }
+
+model Post {
+  id Int @id @default(autoincrement())
+  staff_id Int
+  description String
+  image String
+  document String
+  link String
+  fromDate String
+  toDate String
+  registrationLimit Int
+  registeredNumber Int @default(0)
+}
+
+model Studentpost {
+  id Int @id @default(autoincrement())
+  post_id Int 
+  student_id Int 
+}
