@@ -149,7 +149,7 @@ app.get("/getprofile/:user_id", async (req, res) => {
   const { user_id } = req.params;
 
   try {
-    const profileData = await prisma.profile.findFirst({
+    const profileData = await prisma.profile.findUnique({
       where: {
         user_id: parseInt(user_id),
       },
