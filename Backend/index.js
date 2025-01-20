@@ -231,7 +231,6 @@ app.get("/getparticipation/:user_id",async (req,res)=>{
 app.post("/addPost",upload.fields([{ name: 'image', maxCount: 5 }, { name: 'document', maxCount: 1 }]),async(req,res)=>{
   const data = req.body;
 
-  console.log("Files:", req.files);
   const imageUrls = req.files['image']
   ? req.files['image'].map(file => file.path).join(', ')
   : '';
@@ -248,7 +247,8 @@ const documentUrl = req.files['document'] && req.files['document'][0] ? req.file
         toDate:data.toDate,
         registrationLimit: parseInt(data.registrationLimit),
         document: documentUrl,
-        image:imageUrls
+        image:imageUrls,
+        registeredNumber: parseInt(0)
       }
     });
     return res.status(200).json({message:"Post created successfully",data:postData});
