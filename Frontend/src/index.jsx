@@ -7,6 +7,9 @@ import Sidemenu from "./Components/Sidemenu";
 import SignIn from "./Components/Signin";
 import Login from "./Components/Login";
 import Participation from "./Components/Student/Participation/Participation";
+import Sprofile from "./Components/Staff/Sprofile/Sprofile";
+import Spost from "./Components/Staff/Spost/Spost";
+import Ssearch from "./Components/Staff/Ssearch/Ssearch"
 
 const App = () => {
     return (
@@ -48,6 +51,25 @@ const Router = createBrowserRouter([
         path: "/signin",
         element: <SignIn />,
     },
+    {
+        path:"/staff",
+        element:<App/>,
+        children:[
+            {
+                path:"profile",
+                element:<Sprofile />,
+
+            },
+            {
+                path:"post",
+                element:<Spost/>
+            },
+            {
+                path:"search",
+                element:<Ssearch/>
+            },
+        ]
+    }
 ]);
 
 

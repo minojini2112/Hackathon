@@ -41,7 +41,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[url('https://ik.imagekit.io/mino2112/vcet%20pic.jpg?updatedAt=1737196499851')] bg-no-repeat bg-red-900">
+    <div className="flex items-center justify-center h-screen bg-[url('https://ik.imagekit.io/mino2112/vcet%20pic.jpg?updatedAt=1737196499851')] bg-no-repeat bg-red-900">
       <div className="w-full max-w-md p-8 space-y-6 bg-red-900  bg-rounded-lg ml-[750px]">
         <h2 className="text-2xl font-bold text-center text-white">Login</h2>
         <form onSubmit={handleSubmit} className="space-y-4">

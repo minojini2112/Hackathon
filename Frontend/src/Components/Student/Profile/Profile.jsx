@@ -34,24 +34,25 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
   };
 
   const handleSubmit = async () => {
+    const input = new FormData(); 
+  
+    for (const key in profileData) {
+      input.append(key, profileData[key]);
+    }
+  
     try {
-      const body = new FormData(); // Create FormData object
-      for (const key in formData) {
-        body.append(key, formData[key]);
-      }
-
-      const response = await fetch(`https://placement-connect.onrender.com/profile`, {
+      const response = await fetch(`https://placement-connect.onrender.com/profile/${userId}`, {
         method: 'POST',
-        body, // Send FormData
+        body: input, 
       });
+  
       if (response.ok) {
         const data = await response.json();
-        setProfileData(data.data);
-        setIsEditing(false);
-        alert('Profile updated successfully!');
+        setProfileData(data.data); 
+        alert('Profile details added successfully!');
       } else {
         console.error('Error:', response.statusText);
-        alert('Failed to add profile details . Please try again.');
+        alert('Failed to add profile details. Please try again.');
       }
     } catch (error) {
       console.error('Fetch error:', error);
