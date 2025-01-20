@@ -1,6 +1,6 @@
 import  { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { PencilIcon } from '@heroicons/react/solid';
+//import { PencilIcon } from '@heroicons/react/solid';
 
 const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditing })=>{
   const [formData, setFormData] = useState({
@@ -15,6 +15,7 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
     class_incharge: '',
     placement_head: '',
     image:null,
+    user_id: userId
   });
 
   useEffect(() => {
@@ -32,26 +33,25 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     try {
       const body = new FormData(); // Create FormData object
       for (const key in formData) {
         body.append(key, formData[key]);
       }
 
-      const response = await fetch(`https://placement-connect.onrender.com/profile/${userId}`, {
+      const response = await fetch(`https://placement-connect.onrender.com/profile`, {
         method: 'POST',
         body, // Send FormData
       });
       if (response.ok) {
         const data = await response.json();
-        setProfileData(data);
+        setProfileData(data.data);
         setIsEditing(false);
         alert('Profile updated successfully!');
       } else {
         console.error('Error:', response.statusText);
-        alert('Failed to update profile. Please try again.');
+        alert('Failed to add profile details . Please try again.');
       }
     } catch (error) {
       console.error('Fetch error:', error);
@@ -59,10 +59,10 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
     }
   };
   return (
-    <div className="flex items-center justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9]">
+    <div className="flex items-center ml-[250px] justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9]">
       <form onSubmit={handleSubmit} className="p-8 bg-white rounded-lg shadow-md w-[1000px]">
         <h2 className="mb-6 text-2xl font-bold text-gray-800">
-          {isEditing ? 'Edit Profile Details' : 'Enter Profile Details'}
+          {!isEditing ? 'Edit Profile Details' : 'Enter Profile Details'}
         </h2>
 
         <div className="grid grid-cols-2 gap-6">
@@ -157,17 +157,16 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
             </div>
 
             <div className="mb-4">
-              <select
+              <input
                 name="batch"
                 value={formData.batch}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-md"
                 required
-              >
-                <option value="" disabled>Select Batch</option>
-                <option value="Morning">Morning</option>
-                <option value="Afternoon">Afternoon</option>
-              </select>
+                placeholder='Enter batch'
+              />
+               
+              
             </div>
 
             <div className="mb-4">
@@ -206,8 +205,7 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
               <input
                 type="file"
                 name="image"
-                accept="image/*"
-                value={formData.image}
+                //value={formData.image}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border rounded-md"
               />
@@ -248,7 +246,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
   }
 
   return (
-    <div className="w-full h-screen bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9]">
+    <div className="w-full h-screen bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] ml-[250px]">
       <div className="flex flex-col w-full max-w-screen-xl p-8 mx-auto md:flex-row">
         {/* Profile Image & Basic Info */}
         <div className="flex flex-col items-center justify-center p-8 md:w-1/3">
@@ -294,7 +292,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
         className="fixed bottom-8 right-8 p-4 bg-[#039ee3] text-white rounded-full shadow-lg hover:bg-[#0288d1] cursor-pointer"
         title="Edit Profile"
       >
-        <PencilIcon className="w-6 h-6" />
+        edit
       </button>
     </div>
   );
@@ -349,7 +347,7 @@ const Profile = () => {
             }
             const result = await response.json();
       
-            if (result.exists) {
+            if (result.data) {
               setProfileData(result.data); // Update state with existing profile data
               setIsEditing(false); // Render DisplayProfile component
             } else {

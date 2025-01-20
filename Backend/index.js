@@ -107,7 +107,7 @@ app.post("/profile", upload.single('image'), async (req, res) => {
     });
 
     if (existingProfile) {
-      return res.status(409).json({ message: "Profile already exists" });
+      return res.status(409).json({ message: "Profile already exists" ,data:existingProfile});
     }
 
     // Create a new profile
