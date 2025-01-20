@@ -47,7 +47,7 @@ model Post {
   staff_id Int
   description String
   image String
-  document String
+  pdf String
   link String
   fromDate String
   toDate String

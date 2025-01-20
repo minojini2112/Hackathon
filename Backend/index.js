@@ -228,14 +228,14 @@ app.get("/getparticipation/:user_id",async (req,res)=>{
   
 });
 
-app.post("/addPost",upload.fields([{ name: 'image', maxCount: 5 }, { name: 'document', maxCount: 1 }]),async(req,res)=>{
+app.post("/addPost",upload.fields([{ name: 'image', maxCount: 5 }, { name: 'pdf', maxCount: 1 }]),async(req,res)=>{
   const data = req.body;
 
   const imageUrls = req.files['image']
   ? req.files['image'].map(file => file.path).join(', ')
   : '';
 
-const documentUrl = req.files['document'] && req.files['document'][0] ? req.files['document'][0].path : null;
+const documentUrl = req.files['pdf'] && req.files['pdf'][0] ? req.files['pdf'][0].path : null;
 
   try{
     const postData = await prisma.post.create({
@@ -246,12 +246,11 @@ const documentUrl = req.files['document'] && req.files['document'][0] ? req.file
         fromDate: data.fromDate,
         toDate:data.toDate,
         registrationLimit: parseInt(data.registrationLimit),
-        document: documentUrl,
+        pdf: documentUrl,
         image:imageUrls,
         registeredNumber: parseInt(0)
       }
     });
-    console.log("post details:",postData);
     return res.status(200).json({message:"Post created successfully",data:postData});
   }catch(error){
     console.log("An error occured",error);
