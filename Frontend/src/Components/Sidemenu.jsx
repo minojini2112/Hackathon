@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 const Sidemenu = () => {
   const [profile, setProfile] = useState({});
   const userId = localStorage.getItem("user_id");
-  
+  const role = localStorage.getItem("role");
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
@@ -30,7 +31,8 @@ const Sidemenu = () => {
             profile.image ||
             "https://ik.imagekit.io/mino2112/css%20driving%20skl/woman.png?updatedAt=1725791888913"
           }
-          alt="Profile" className="object-cover w-full h-full"
+          alt="Profile"
+          className="object-cover w-full h-full"
         />
       </div>
 
@@ -41,13 +43,25 @@ const Sidemenu = () => {
           <Link to="/dashboard">Dashboard</Link>
         </h2>
         <h2 className="hover:bg-[#039ee3] hover:text-[#0e2f44] p-2 rounded-md cursor-pointer">
-          <Link to="/dashboard/profile">Profile</Link>
+          {role === "student" ? (
+            <Link to="/dashboard/profile">Profile</Link>
+          ) : (
+            <Link to="/staff/profile">Profile</Link>
+          )}
         </h2>
         <h2 className="hover:bg-[#039ee3] hover:text-[#0e2f44] p-2 rounded-md cursor-pointer">
-          <Link to="/dashboard/participation">Participation</Link>
+          {role === "student" ? (
+            <Link to="/dashboard/participation">Participation</Link>
+          ) : (
+            <Link to="/staff/post">Post</Link>
+          )}
         </h2>
         <h2 className="hover:bg-[#039ee3] hover:text-[#0e2f44] p-2 rounded-md cursor-pointer">
           <Link to="/dashboard/notifications">Notifications</Link>
+        </h2>
+        <h2>
+          {role ==="student"?
+          (<Link to ="/staff/search">Student Search</Link>): ""}
         </h2>
 
         <hr className="border-t-2 border-[#039ee3]" />

@@ -27,7 +27,8 @@ const Login = () => {
 
       if (response.ok) {
         const result = await response.json();
-        localStorage.setItem("user_id",result.data.id)
+        localStorage.setItem("user_id",result.data.id);
+        localStorage.setItem("role",result.data.role);
         setMessage(result.message || "Login successful!");
         navigate("/dashboard");
       } else {
