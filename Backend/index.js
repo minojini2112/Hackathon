@@ -231,6 +231,7 @@ app.get("/getparticipation/:user_id",async (req,res)=>{
 app.post("/addPost",upload.fields([{ name: 'image', maxCount: 5 }, { name: 'document', maxCount: 1 }]),async(req,res)=>{
   const data = req.body;
 
+  console.log("Files:", req.files);
   const imageUrls = req.files['image']
   ? req.files['image'].map(file => file.path).join(', ')
   : '';
