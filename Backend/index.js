@@ -88,32 +88,23 @@ app.post("/login", async (req, res) => {
 });
 
 // Create Profile Route
-app.post("/profile", upload.single('image'), async (req, res) => {
+app.post("/profile/:user_id", upload.single('image'), async (req, res) => {
+  const { user_id } = req.params;
   const data = req.body;
 
-  // Validate required fields
-  if (!data.user_id || !data.name || !data.department || !data.year || !data.section || !data.register_number || !data.roll_no) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
   try {
-    const imageUrl = req.file?.path || null;
-
-    // Check if the profile already exists
-    const existingProfile = await prisma.profile.findFirst({
-      where: {
-        user_id: parseInt(data.user_id, 10),
-      },
-    });
-
-    if (existingProfile) {
-      return res.status(409).json({ message: "Profile already exists" ,data:existingProfile});
+   const imageUrl = req.file?.path || data.image; // Use existing image if no new file
+   const profileExists = await prisma.profile.findUnique({
+    where:{
+      user_id: parseInt(user_id),
     }
-
-    // Create a new profile
-    const profiledetails = await prisma.profile.create({
-      data: {
-        user_id: parseInt(data.user_id, 10),
+   })
+   if (profileExists){
+      const updateProfile =  await prisma.profile.update({
+        where:{
+          user_id: parseInt(user_id),
+        },
+        data:{
         name: data.name,
         department: data.department,
         year: data.year,
@@ -125,12 +116,30 @@ app.post("/profile", upload.single('image'), async (req, res) => {
         placement_head: data.placement_head || null,
         batch: data.batch || null,
         image: imageUrl || null,
-      },
-    });
-
-    return res.status(201).json({ message: "Profile created successfully", data: profiledetails });
+        },
+      })
+      return res.status(200).json({message:"Profile Updated Successfully",data:updateProfile});
+   }else{
+      const newProfile = await prisma.profile.create({
+        data:{
+          user_id: parseInt(user_id),
+        name: data.name,
+        department: data.department,
+        year: data.year,
+        section: data.section,
+        register_number: data.register_number,
+        roll_no: data.roll_no,
+        staff_incharge: data.staff_incharge || null,
+        class_incharge: data.class_incharge || null,
+        placement_head: data.placement_head || null,
+        batch: data.batch || null,
+        image: imageUrl || null,
+        },
+      })
+      return res.status(200).json({message:"Profile created successfully",data:newProfile})
+   }
   } catch (error) {
-    console.error("Error creating profile:", error);
+    console.error("Error updating profile:", error);
     return res.status(500).json({ message: error.message || "Internal Server Error" });
   }
 });
@@ -147,69 +156,16 @@ app.get("/getprofile/:user_id", async (req, res) => {
     });
 
     if (!profileData) {
-      return res.status(200).json({ exists: false ,
-        message:"profile not found"
-      });
+      return res.status(200).json({ message: "Profile not found"});
     }
 
-    return res.status(200).json({ 
-      exists: true, 
-      data: profileData ,
-      message:"profile found"
-    });
+    return res.status(200).json({ message: "Data retrieved successfully", data: profileData });
   } catch (error) {
     console.error("Error fetching profile:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 });
 
-// Add this route for profile updates
-app.post("/profile/:user_id", upload.single('Image'), async (req, res) => {
-  const { user_id } = req.params;
-  const data = req.body;
-
-  try {
-    const imageUrl = req.file?.path || data.Image; // Use existing image if no new file
-
-    const updatedProfile = await prisma.profile.upsert({
-      where: {
-        user_id: parseInt(user_id, 10),
-      },
-      update: {
-        name: data.name,
-        department: data.department,
-        year: data.year,
-        section: data.section,
-        register_number: data.register_number,
-        roll_no: data.roll_no,
-        staff_incharge: data.staff_incharge || null,
-        class_incharge: data.class_incharge || null,
-        placement_head: data.placement_head || null,
-        batch: data.batch || null,
-        image: imageUrl || null,
-      },
-      create: {
-        user_id: parseInt(user_id, 10),
-        name: data.name,
-        department: data.department,
-        year: data.year,
-        section: data.section,
-        register_number: data.register_number,
-        roll_no: data.roll_no,
-        staff_incharge: data.staff_incharge || null,
-        class_incharge: data.class_incharge || null,
-        placement_head: data.placement_head || null,
-        batch: data.batch || null,
-        image: imageUrl || null,
-      },
-    });
-
-    return res.status(200).json(updatedProfile);
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    return res.status(500).json({ message: error.message || "Internal Server Error" });
-  }
-});
 
 app.post("/participation", upload.fields([{ name: 'image', maxCount: 5 }, { name: 'pdf', maxCount: 1 }]), async (req, res) => {
   const data = req.body;
@@ -273,6 +229,6 @@ app.get("/getparticipation/:user_id",async (req,res)=>{
 });
 
 
-app.listen(3009, () => {
-  console.log("Server is running on port 3009");
+app.listen(3005, () => {
+  console.log("Server is running on port 3005");
 });

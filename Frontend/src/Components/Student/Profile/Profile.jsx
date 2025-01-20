@@ -20,9 +20,12 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
 
   useEffect(() => {
     if (profileData) {
-      setFormData(profileData);
+      setFormData((prev) => ({
+        ...prev,
+        ...profileData,
+      }));
     }
-  }, [profileData]);
+  }, [profileData]);  
 
   const handleChange = (e) => {
     const { name, value , files } = e.target;
@@ -34,31 +37,57 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
   };
 
   const handleSubmit = async () => {
+<<<<<<< HEAD
     const input = new FormData(); 
   
     for (const key in profileData) {
       input.append(key, profileData[key]);
+=======
+    const input = new FormData();
+    
+    for (const key in formData) {
+      if (key === 'image' && formData[key] instanceof File) {
+        input.append(key, formData[key]); // Append file directly
+      } else {
+        input.append(key, formData[key]);
+      }
+>>>>>>> d12934d9e99f3efa655af139a6c67f55b8de7ce5
     }
   
     try {
       const response = await fetch(`https://placement-connect.onrender.com/profile/${userId}`, {
         method: 'POST',
+<<<<<<< HEAD
         body: input, 
+=======
+        body: input,
+>>>>>>> d12934d9e99f3efa655af139a6c67f55b8de7ce5
       });
   
       if (response.ok) {
         const data = await response.json();
+<<<<<<< HEAD
         setProfileData(data.data); 
         alert('Profile details added successfully!');
       } else {
         console.error('Error:', response.statusText);
         alert('Failed to add profile details. Please try again.');
+=======
+        setProfileData(data.data);
+        alert('Profile details added successfully!');
+      } else {
+        const errorMessage = await response.text();
+        console.error(`Server Error: ${errorMessage}`);
+        alert(`Failed to add profile details: ${errorMessage}`);
+>>>>>>> d12934d9e99f3efa655af139a6c67f55b8de7ce5
       }
     } catch (error) {
-      console.error('Fetch error:', error);
-      alert('An error occurred. Please try again later.');
+      console.error('Fetch error:', error); 
+    }finally{
+      window.location.reload();
     }
   };
+  
   return (
     <div className="flex items-center ml-[250px] justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9]">
       <form onSubmit={handleSubmit} className="p-8 bg-white rounded-lg shadow-md w-[1000px]">
@@ -253,7 +282,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
         <div className="flex flex-col items-center justify-center p-8 md:w-1/3">
           <div className="w-[150px] h-[150px] border-4 border-black rounded-full overflow-hidden mb-4">
             <img
-              src="https://ik.imagekit.io/mino2112/css%20driving%20skl/woman.png?updatedAt=1725791888913"
+              src={profileData.image}
               alt="Profile"
               className="object-cover w-full h-full"
             />
