@@ -251,6 +251,7 @@ const documentUrl = req.files['document'] && req.files['document'][0] ? req.file
         registeredNumber: parseInt(0)
       }
     });
+    console.log("post details:",postData);
     return res.status(200).json({message:"Post created successfully",data:postData});
   }catch(error){
     console.log("An error occured",error);
