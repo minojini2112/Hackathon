@@ -245,7 +245,7 @@ const documentUrl = req.files['document'] && req.files['document'][0] ? req.file
         link: data.link,
         fromDate: data.fromDate,
         toDate:data.toDate,
-        registrationLimit: data.registrationLimit,
+        registrationLimit: parseInt(data.registrationLimit),
         document: documentUrl,
         image:imageUrls
       }
