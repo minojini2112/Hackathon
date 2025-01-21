@@ -289,6 +289,7 @@ app.get("/getallPost", async(req,res)=>{
  }
 });
 
+
 app.get("/getindividualPost/:post_id", async(req,res)=>{
 const {post_id} = req.params;
 try{

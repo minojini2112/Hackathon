@@ -4,6 +4,7 @@ const Login = () => {
     const navigate = useNavigate();
     const[profile,setProfile]=useState({});
     const userId = localStorage.getItem("user_id");
+    const role =localStorage.getItem("role");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -46,13 +47,19 @@ const Login = () => {
 
       if (response.ok) {
         const result = await response.json();
+        console.log(result);
         localStorage.setItem("user_id",result.data.id);
         localStorage.setItem("role",result.data.role);
         setMessage(result.message || "Login successful!");
         if (profile){
           navigate("/dashboard");
         }else{
-          navigate("/dashboard/profile");
+          if(role==="student"){
+            navigate("/dashboard/profile");
+          }else{
+            navigate("/dashboard");
+          }
+          
         }
       } else {
         const error = await response.json();
@@ -65,7 +72,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-[url('https://ik.imagekit.io/mino2112/vcet%20pic.jpg?updatedAt=1737196499851')] bg-no-repeat bg-red-900">
+    <div className="flex items-center justify-center h-screen bg-[url('https://vcet.ac.in/vcetit/images/it_service/VCET.jpeg')] bg-no-repeat bg-red-900">
       <div className="w-full max-w-md p-8 space-y-6 bg-red-900  bg-rounded-lg ml-[750px]">
         <h2 className="text-2xl font-bold text-center text-white">Login</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
