@@ -36,10 +36,9 @@ const corsOptions = {
 
 const app = express()
 const prisma = new PrismaClient();
-app.use(cors(corsOptions)); 
-
 const upload = multer({ storage });
 
+app.use(cors(corsOptions)); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -247,18 +246,22 @@ const documentUrl = req.files['pdf'] && req.files['pdf'][0] ? req.files['pdf'][0
 
   try{
     const postData = await prisma.post.create({
-      data:{
-        staff_id :parseInt(data.staff_id),
+      data: {
+        staff_id: parseInt(data.staff_id),
         description: data.description,
         link: data.link,
         fromDate: data.fromDate,
-        toDate:data.toDate,
+        toDate: data.toDate,
         registrationLimit: parseInt(data.registrationLimit),
         pdf: documentUrl,
-        image:imageUrls,
-        registeredNumber: parseInt(0)
-      }
+        image: imageUrls,
+        registeredNumber: parseInt(0),
+      },
+    }).catch(err => {
+      console.error('Prisma error:', err);
+      throw err;
     });
+    
     return res.status(200).json({message:"Post created successfully",data:postData});
   }catch(error){
     console.log("An error occured",error);
