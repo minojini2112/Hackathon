@@ -5,7 +5,6 @@ const Ssearch = () => {
     name: "",
     registerNumber: "",
     rollNumber: "",
-    batch: "",
     departments: [],
     year: [],
     section: [],
@@ -14,6 +13,52 @@ const Ssearch = () => {
   });
 
   const [activeDropdown, setActiveDropdown] = useState(null);
+
+  // Dummy Data
+  const dummyData = [
+    {
+      name: "John Doe",
+      registerNumber: "123456",
+      rollNumber: "ME001",
+      departments: "Mechanical Engineering",
+      year: "I Year",
+      section: "A",
+      staffInCharge: "Staff 1",
+      placementInCharge: "Incharge 1",
+    },
+    {
+      name: "Jane Smith",
+      registerNumber: "789012",
+      rollNumber: "IT002",
+      departments: "Information Technology",
+      year: "II Year",
+      section: "B",
+      staffInCharge: "Staff 2",
+      placementInCharge: "Incharge 2",
+    },
+    {
+      name: "Alice Johnson",
+      registerNumber: "345678",
+      rollNumber: "CS003",
+      departments: "CSE",
+      year: "III Year",
+      section: "C",
+      staffInCharge: "Staff 3",
+      placementInCharge: "Incharge 3",
+    },
+    {
+      name: "Bob Williams",
+      registerNumber: "901234",
+      rollNumber: "ECE004",
+      departments: "ECE",
+      year: "IV Year",
+      section: "A",
+      staffInCharge: "Staff 4",
+      placementInCharge: "Incharge 1",
+    },
+  ];
+
+  const [displayedData, setDisplayedData] = useState(dummyData);
 
   const departments = [
     "Mechanical Engineering",
@@ -52,24 +97,36 @@ const Ssearch = () => {
       name: "",
       registerNumber: "",
       rollNumber: "",
-      batch: "",
       departments: [],
       year: [],
       section: [],
       staffInCharge: [],
       placementInCharge: [],
     });
+    setDisplayedData(dummyData); // Reset to all data
   };
 
   const applyFilters = () => {
-    console.log("Applied Filters:", filters);
+    const filteredData = dummyData.filter((item) => {
+      return (
+        (!filters.name || item.name.toLowerCase().includes(filters.name.toLowerCase())) &&
+        (!filters.registerNumber || item.registerNumber.includes(filters.registerNumber)) &&
+        (!filters.rollNumber || item.rollNumber.includes(filters.rollNumber)) &&
+        (filters.departments.length === 0 || filters.departments.includes(item.departments)) &&
+        (filters.year.length === 0 || filters.year.includes(item.year)) &&
+        (filters.section.length === 0 || filters.section.includes(item.section)) &&
+        (filters.staffInCharge.length === 0 || filters.staffInCharge.includes(item.staffInCharge)) &&
+        (filters.placementInCharge.length === 0 || filters.placementInCharge.includes(item.placementInCharge))
+      );
+    });
+    setDisplayedData(filteredData);
   };
 
   return (
     <div className="w-full p-4 bg-gray-100 ml-[250px]">
       <div className="flex flex-wrap gap-2">
         {/* Text Inputs */}
-        {["name", "registerNumber", "rollNumber", "batch"].map((field) => (
+        {["Name", "RegisterNumber", "RollNumber"].map((field) => (
           <div key={field} className="w-full sm:w-1/5">
             <input
               type="text"
@@ -85,20 +142,11 @@ const Ssearch = () => {
 
       {/* Dropdowns */}
       <div className="flex flex-wrap gap-2 mt-4">
-        {[
-          { label: "Department", options: departments, key: "departments" },
+        {[{ label: "Department", options: departments, key: "departments" },
           { label: "Year", options: years, key: "year" },
           { label: "Section", options: sections, key: "section" },
-          {
-            label: "Staff In-Charge",
-            options: staffInCharges,
-            key: "staffInCharge",
-          },
-          {
-            label: "Placement In-Charge",
-            options: placementInCharges,
-            key: "placementInCharge",
-          },
+          { label: "Staff In-Charge", options: staffInCharges, key: "staffInCharge" },
+          { label: "Placement In-Charge", options: placementInCharges, key: "placementInCharge" },
         ].map((dropdown) => (
           <Dropdown
             key={dropdown.key}
@@ -131,6 +179,34 @@ const Ssearch = () => {
           Apply Filters
         </button>
       </div>
+
+      {/* Display Data */}
+      <div className="mt-8">
+        <h3 className="mb-4 text-xl font-bold">Filtered Data</h3>
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr>
+              {["Name", "Register Number", "Roll Number", "Department", "Year", "Section", "Staff In-Charge", "Placement In-Charge"].map((header) => (
+                <th key={header} className="p-2 border border-gray-300">{header}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {displayedData.map((item, index) => (
+              <tr key={index}>
+                <td className="p-2 border border-gray-300">{item.name}</td>
+                <td className="p-2 border border-gray-300">{item.registerNumber}</td>
+                <td className="p-2 border border-gray-300">{item.rollNumber}</td>
+                <td className="p-2 border border-gray-300">{item.departments}</td>
+                <td className="p-2 border border-gray-300">{item.year}</td>
+                <td className="p-2 border border-gray-300">{item.section}</td>
+                <td className="p-2 border border-gray-300">{item.staffInCharge}</td>
+                <td className="p-2 border border-gray-300">{item.placementInCharge}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
@@ -152,7 +228,6 @@ const Dropdown = ({
       >
         {label} {selected.length > 0 ? `(${selected.length})` : ""}
         <span className="ml-2">&#9660;</span>
-        {/* Dropdown arrow icon */}
       </button>
       {isActive && (
         <div className="absolute z-10 w-full p-4 mt-2 bg-white border border-gray-300 rounded-md shadow-lg">
