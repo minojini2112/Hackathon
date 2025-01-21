@@ -21,9 +21,17 @@ const storage = new CloudinaryStorage({
 });
 
 const corsOptions = {
-  origin: '*', 
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-  allowedHeaders: ['Content-Type'], 
+  origin: (origin, callback) => {
+    const allowedOrigins = ['http://localhost:5173'];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, 
 };
 
 const app = express()
