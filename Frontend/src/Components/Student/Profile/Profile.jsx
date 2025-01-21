@@ -1,404 +1,253 @@
-import  { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-//import { PencilIcon } from '@heroicons/react/solid';
+import React, { useState, useEffect } from "react";
 
-const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditing })=>{
-  const [formData, setFormData] = useState({
-    name: '',
-    department: '',
-    year: '',
-    section: '',
-    register_number: '',
-    roll_no: '',
-    batch: '',
-    staff_incharge: '',
-    class_incharge: '',
-    placement_head: '',
-    image:null,
-    user_id: userId
+const Ssearch = () => {
+  const [filters, setFilters] = useState({
+    name: "",
+    registerNumber: "",
+    rollNumber: "",
+    departments: [],
+    year: [],
+    section: [],
+    staffInCharge: [],
+    placementInCharge: [],
   });
 
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [displayedData, setDisplayedData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch data from API
   useEffect(() => {
-    if (profileData) {
-      setFormData((prev) => ({
-        ...prev,
-        ...profileData,
-      }));
-    }
-  }, [profileData]);  
-
-  const handleChange = (e) => {
-    const { name, value , files } = e.target;
-    if (name === 'image' && files.length > 0) {
-      setFormData({ ...formData, image: files[0] }); // Store file in state
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
-
-  const handleSubmit = async () => {
-    const input = new FormData();
-    for (const key in formData) {
-      if (key === 'image' && formData[key] instanceof File) {
-        input.append(key, formData[key]);
-      } else {
-        input.append(key, formData[key]);
-      }
-    }
-  
-    try {
-      const response = await fetch(`https://hackathon-fw7v.onrender.com/profile/${userId}`, {
-        method: 'POST',
-        body: input,
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        setProfileData(data.data);
-        alert('Profile details added successfully!');
-      } else {
-        const errorMessage = await response.text();
-        console.error(`Server Error: ${errorMessage}`);
-        alert(`Failed to add profile details: ${errorMessage}`);
-      }
-    } catch (error) {
-      console.error('Fetch error:', error);
-      alert('An error occurred while saving your profile.');
-    } finally {
-      window.location.reload();
-    }
-  };
-  
-  return (
-    <div className="flex items-center ml-[250px] justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9]">
-      <form onSubmit={handleSubmit} className="p-8 bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] rounded-lg shadow-md w-[1000px]">
-        <h2 className="mb-6 text-2xl font-bold text-gray-800">
-          {!isEditing ? 'Edit Profile Details' : 'Enter Profile Details'}
-        </h2>
-
-        <div className="grid grid-cols-2 gap-6">
-          <div>
-            <div className="mb-4">
-              <input
-                type="text"
-                name="name"
-                placeholder="Name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md"
-                required
-              />
-            </div>
-
-            <div className="mb-4">
-              <select
-                name="year"
-                value={formData.year}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md"
-                required
-              >
-                <option value="" disabled>Select Year</option>
-                <option value="I Year">I Year</option>
-                <option value="II Year">II Year</option>
-                <option value="III Year">III Year</option>
-                <option value="IV Year">IV Year</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <select
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md"
-                required
-              >
-                <option value="" disabled>Select Department</option>
-                <option value="Mechanical Engineering">Mechanical Engineering</option>
-                <option value="Civil Engineering">Civil Engineering</option>
-                <option value="EEE">Electrical and Electronics Engineering</option>
-                <option value="Information Technology">Information Technology</option>
-                <option value="ECE">Electronics and Communication Engineering</option>
-                <option value="CSE">Computer Science and Engineering</option>
-                <option value="AI & DS">Artificial Intelligence and Data Science</option>
-                <option value="Cyber Security">Cyber Security</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <select
-                name="section"
-                value={formData.section}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md"
-                required
-              >
-                <option value="" disabled>Select Section</option>
-                <option value="A">A</option>
-                <option value="B">B</option>
-                <option value="C">C</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <input
-                type="text"
-                name="register_number"
-                placeholder="Register Number"
-                value={formData.register_number}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md"
-                required
-              />
-            </div>
-          </div>
-
-          <div>
-            <div className="mb-4">
-              <input
-                type="text"
-                name="roll_no"
-                placeholder="Roll Number"
-                value={formData.roll_no}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md"
-                required
-              />
-            </div>
-
-            <div className="mb-4">
-              <input
-                name="batch"
-                value={formData.batch}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md"
-                required
-                placeholder='Enter batch'
-              />
-               
-              
-            </div>
-
-            <div className="mb-4">
-              <input
-                type="text"
-                name="placement_head"
-                placeholder="Placement Student Head"
-                value={formData.placement_head}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md"
-              />
-            </div>
-
-            <div className="mb-4">
-              <input
-                type="text"
-                name="class_incharge"
-                placeholder="Class Incharge"
-                value={formData.class_incharge}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md"
-              />
-            </div>
-
-            <div className="mb-4">
-              <input
-                type="text"
-                name="staff_incharge"
-                placeholder="Placement Staff Head"
-                value={formData.staff_incharge}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md"
-              />
-            </div>
-              <div className="mb-4">
-              <input
-                type="file"
-                name="image"
-                //value={formData.image}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md"
-              />
-            </div>
-          </div>
-        </div>
-        
-
-        <div className="flex justify-end mt-6">
-          <button
-            type="submit"
-            className="px-6 py-2 text-white bg-[#039ee3] rounded-md shadow-md hover:bg-[#0288d1]"
-          >
-            Save Changes
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-};
-
-// PropTypes validation
-EditProfile.propTypes = {
-  userId: PropTypes.string.isRequired,
-  profileData: PropTypes.object.isRequired,
-  setProfileData: PropTypes.func.isRequired,
-  setIsEditing: PropTypes.func.isRequired,
-  isEditing: PropTypes.bool.isRequired,
-};
-
-const DisplayProfile = ({ profileData, setIsEditing }) => {
-  if (!profileData) {
-    return (
-      <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9]">
-        <p className="text-xl text-gray-600">Loading profile data...</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="w-full h-screen bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] ml-[250px]">
-      <div className="flex flex-col w-full max-w-screen-xl p-8 mx-auto md:flex-row">
-        {/* Profile Image & Basic Info*/ }
-        <div className="flex flex-col items-center justify-center p-8 md:w-1/3">
-          <div className="w-[150px] h-[150px] border-4 border-black rounded-full overflow-hidden mb-4">
-            <img
-              src={profileData.image}
-              alt="Profile"
-              className="object-cover w-full h-full"
-            />
-          </div>
-          <h2 className="mb-2 text-3xl font-bold text-gray-800">{profileData.name}</h2>
-          <h3 className="text-xl text-gray-700">{profileData.year}</h3>
-          <h4 className="text-gray-800 text-md">{profileData.department}</h4>
-        </div>
-
-        {/*Academic Details */}
-        <div className="flex flex-col justify-center p-8 md:w-2/3">
-          <div className="p-6 mb-6 text-gray-800 rounded-lg shadow-xl">
-            <h3 className="text-2xl font-semibold mb-4 border-b-2 border-[#039ee3] pb-2">Academic Details</h3>
-            <div className="grid grid-cols-2 gap-6">
-              <Detail label="Section" value={profileData.section} />
-              <Detail label="Register Number" value={profileData.register_number} />
-              <Detail label="Roll Number" value={profileData.roll_no} />
-              <Detail label="Batch" value={profileData.batch} />
-            </div>
-          </div>
-
-         {/*Incharge Details*/ }
-          <div className="p-6 text-gray-800 rounded-lg shadow-xl">
-            <h3 className="text-2xl font-semibold mb-4 border-b-2 border-[#039ee3] pb-2">Incharge</h3>
-            <div className="grid grid-cols-1 gap-4">
-              <Detail label="Placement Student Head" value={profileData.placement_head} />
-              <Detail label="Class Incharge" value={profileData.class_incharge} />
-              <Detail label="Placement Staff Head" value={profileData.staff_incharge} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-    {/* Edit Button */}
-      <button
-        onClick={() => setIsEditing(true)}
-        className="fixed bottom-8 right-8 p-4 bg-[#039ee3] text-white rounded-full shadow-lg hover:bg-[#0288d1] cursor-pointer"
-        title="Edit Profile"
-      >
-        edit
-      </button>
-    </div>
-  );
-};
-
-// ✅ Add PropTypes Validation
-DisplayProfile.propTypes = {
-  profileData: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    department: PropTypes.string.isRequired,
-    year: PropTypes.string.isRequired,
-    section: PropTypes.string,
-    register_number: PropTypes.string,
-    roll_no: PropTypes.string,
-    batch: PropTypes.string,
-    placement_head: PropTypes.string,
-    class_incharge: PropTypes.string,
-    staff_incharge: PropTypes.string,
-  }),
-  setIsEditing: PropTypes.func.isRequired,
-};
-
-// Reusable Component for Profile Details
-const Detail = ({ label, value }) => (
-  <div>
-    <p className="text-sm text-gray-500">{label}</p>
-    <p className="text-lg font-medium">{value || "N/A"}</p>
-  </div>
-);
-
-Detail.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string,
-};
-
-
-
-const Profile = () => {
-    const [profileData, setProfileData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [isEditing, setIsEditing] = useState(false);
-    const userId = localStorage.getItem("user_id");
-
-    useEffect(() => {
-        setLoading(true); // Start loading
-      
-        const fetchProfile = async () => {
-          try {
-            const response = await fetch(`https://hackathon-fw7v.onrender.com/getprofile/${userId}`);
-            if (!response.ok) {
-              throw new Error('Error fetching profile data.');
-            }
-            const result = await response.json();
-      
-            if (result.data) {
-              setProfileData(result.data); // Update state with existing profile data
-              setIsEditing(false); // Render DisplayProfile component
-            } else {
-              setProfileData({}); // Set empty profile data for editing
-              setIsEditing(true); // Render EditProfile component
-            }
-          } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while fetching profile data!');
-          } finally {
-            setLoading(false); // Stop loading
+    const fetchStudentData = async () => {
+      try {
+        const response = await fetch(
+          "https://hackathon-fw7v.onrender.com/profile",
+          {
+            method: "GET",
           }
-        };
-      
-        fetchProfile();
-      }, [userId]);
-
-      if (loading) {
-        return (
-          <div className="w-full h-screen flex items-center justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9]">
-            <p className="text-xl text-gray-600">Loading profile data...</p>
-          </div>
         );
-      }
-      
-      return isEditing ? (
-        <EditProfile
-          userId={userId}
-          profileData={profileData}
-          setProfileData={setProfileData}
-          setIsEditing={setIsEditing}
-          isEditing={isEditing}
-        />
-      ) : (
-        <DisplayProfile profileData={profileData} setIsEditing={setIsEditing} />
-      );
-    
-     
-      
-    }      
-    
-export default Profile;
 
+        if (response.ok) {
+          const data = await response.json();
+          setDisplayedData(data.students); // Assuming the API returns an array of students
+          setLoading(false);
+        } else {
+          const errorMessage = await response.text();
+          console.error(`Server Error: ${errorMessage}`);
+          alert(`Failed to fetch student details: ${errorMessage}`);
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+        alert("An error occurred while fetching student details.");
+      }
+    };
+
+    fetchStudentData();
+  }, []);
+
+  const departments = [
+    "Mechanical Engineering",
+    "Civil Engineering",
+    "EEE",
+    "Information Technology",
+    "ECE",
+    "CSE",
+    "AI & DS",
+    "Cyber Security",
+  ];
+  const years = ["I Year", "II Year", "III Year", "IV Year"];
+  const sections = ["A", "B", "C"];
+  const staffInCharges = ["Staff 1", "Staff 2", "Staff 3", "Staff 4"];
+  const placementInCharges = ["Incharge 1", "Incharge 2", "Incharge 3"];
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleCheckboxChange = (category, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [category]: prev[category].includes(value)
+        ? prev[category].filter((item) => item !== value)
+        : [...prev[category], value],
+    }));
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      name: "",
+      registerNumber: "",
+      rollNumber: "",
+      departments: [],
+      year: [],
+      section: [],
+      staffInCharge: [],
+      placementInCharge: [],
+    });
+    setDisplayedData([]); // Reset to all data
+  };
+
+  const applyFilters = () => {
+    const filteredData = displayedData.filter((item) => {
+      return (
+        (!filters.name || item.name.toLowerCase().includes(filters.name.toLowerCase())) &&
+        (!filters.registerNumber || item.registerNumber.includes(filters.registerNumber)) &&
+        (!filters.rollNumber || item.rollNumber.includes(filters.rollNumber)) &&
+        (filters.departments.length === 0 || filters.departments.includes(item.departments)) &&
+        (filters.year.length === 0 || filters.year.includes(item.year)) &&
+        (filters.section.length === 0 || filters.section.includes(item.section)) &&
+        (filters.staffInCharge.length === 0 || filters.staffInCharge.includes(item.staffInCharge)) &&
+        (filters.placementInCharge.length === 0 || filters.placementInCharge.includes(item.placementInCharge))
+      );
+    });
+    setDisplayedData(filteredData);
+  };
+
+  return (
+    <div className="w-full p-4 bg-gray-100 ml-[250px]">
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <div className="flex flex-wrap gap-2">
+            {/* Text Inputs */}
+            {["Name", "RegisterNumber", "RollNumber"].map((field) => (
+              <div key={field} className="w-full sm:w-1/5">
+                <input
+                  type="text"
+                  name={field}
+                  value={filters[field]}
+                  onChange={handleInputChange}
+                  placeholder={field.replace(/([A-Z])/g, " $1")}
+                  className="p-2 border border-gray-300 rounded-full w-[150px]"
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Dropdowns */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            {[
+              { label: "Department", options: departments, key: "departments" },
+              { label: "Year", options: years, key: "year" },
+              { label: "Section", options: sections, key: "section" },
+              { label: "Staff In-Charge", options: staffInCharges, key: "staffInCharge" },
+              { label: "Placement In-Charge", options: placementInCharges, key: "placementInCharge" },
+            ].map((dropdown) => (
+              <Dropdown
+                key={dropdown.key}
+                label={dropdown.label}
+                options={dropdown.options}
+                selected={filters[dropdown.key]}
+                onChange={(value) => handleCheckboxChange(dropdown.key, value)}
+                isActive={activeDropdown === dropdown.key}
+                onToggle={() =>
+                  setActiveDropdown((prev) =>
+                    prev === dropdown.key ? null : dropdown.key
+                  )
+                }
+              />
+            ))}
+          </div>
+
+          {/* Actions */}
+          <div className="flex justify-between mt-6">
+            <button
+              className="text-sm text-red-500 underline"
+              onClick={clearFilters}
+            >
+              Clear All
+            </button>
+            <button
+              className="px-4 py-2 text-white bg-blue-500 rounded-md"
+              onClick={applyFilters}
+            >
+              Apply Filters
+            </button>
+          </div>
+
+          {/* Display Data */}
+          <div className="mt-8">
+            <h3 className="mb-4 text-xl font-bold">Filtered Data</h3>
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr>
+                  {[
+                    "Name",
+                    "Register Number",
+                    "Roll Number",
+                    "Department",
+                    "Year",
+                    "Section",
+                    "Staff In-Charge",
+                    "Placement In-Charge",
+                  ].map((header) => (
+                    <th key={header} className="p-2 border border-gray-300">
+                      {header}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {displayedData.map((item, index) => (
+                  <tr key={index}>
+                    <td className="p-2 border border-gray-300">{item.name}</td>
+                    <td className="p-2 border border-gray-300">{item.registerNumber}</td>
+                    <td className="p-2 border border-gray-300">{item.rollNumber}</td>
+                    <td className="p-2 border border-gray-300">{item.departments}</td>
+                    <td className="p-2 border border-gray-300">{item.year}</td>
+                    <td className="p-2 border border-gray-300">{item.section}</td>
+                    <td className="p-2 border border-gray-300">{item.staffInCharge}</td>
+                    <td className="p-2 border border-gray-300">{item.placementInCharge}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+// Dropdown Component
+const Dropdown = ({
+  label,
+  options,
+  selected,
+  onChange,
+  isActive,
+  onToggle,
+}) => {
+  return (
+    <div className="relative inline-block w-full sm:w-1/5">
+      <button
+        className="flex items-center justify-between w-full px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm"
+        onClick={onToggle}
+      >
+        {label} {selected.length > 0 ? `(${selected.length})` : ""}
+        <span className="ml-2">&#9660;</span>
+      </button>
+      {isActive && (
+        <div className="absolute z-10 w-full p-4 mt-2 bg-white border border-gray-300 rounded-md shadow-lg">
+          {options.map((option) => (
+            <label key={option} className="flex items-center mb-2 space-x-2">
+              <input
+                type="checkbox"
+                checked={selected.includes(option)}
+                onChange={() => onChange(option)}
+              />
+              <span>{option}</span>
+            </label>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Ssearch;
