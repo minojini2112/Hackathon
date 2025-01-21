@@ -1,102 +1,136 @@
-import React from "react";
+import React, { useEffect ,useState
+  
+} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-const posts = [
-  {
-    id: 1,
-    description: "Workshop on AI and Machine Learning",
-    image: "https://via.placeholder.com/300x200",
-    document: "WorkshopDetails.pdf",
-    link: "https://example.com/ai-workshop",
-    fromDate: "2025-01-25",
-    toDate: "2025-01-26",
-    registrationLimit: "100",
-    registeredNumber: "45",
-  },
-  {
-    id: 2,
-    description: "Web Development Bootcamp",
-    image: "https://via.placeholder.com/300x200",
-    document: "BootcampDetails.pdf",
-    link: "https://example.com/web-bootcamp",
-    fromDate: "2025-02-10",
-    toDate: "2025-02-12",
-    registrationLimit: "150",
-    registeredNumber: "100",
-  },
-  {
-    id: 3,
-    description: "Cybersecurity Awareness Seminar",
-    image: "https://via.placeholder.com/300x200",
-    document: "SeminarDetails.pdf",
-    link: "https://example.com/cybersecurity",
-    fromDate: "2025-03-01",
-    toDate: "2025-03-02",
-    registrationLimit: "200",
-    registeredNumber: "150",
-  },
-];
 
+const listpage=(props)=>{
+  return(
+    <div>
+      <h1>studentlist</h1>
+      {props.list.map((student) => {
+        return(
+          <div key={student.user_id}>
+            <p>{student.name}</p>
+            <p>{student.department}</p>
+            <p>{student.year}</p>
+            <p>{student.section}</p>
+            <p>{student.register_number}</p>
+            <p>{student.roll_no}</p>
+            <p>{student.batch}</p>
+            <p>{student.staff_incharge}</p>
+            <p>{student.class_incharge}</p>
+            <p>{student.placement_head}</p>
+          </div>
+        );
+      }
+        
+      )}
+    </div>
+  );
+  
+}
 const PostDetails = () => {
-  const { id } = useParams();
+  const { post_id } = useParams();
+  const[postdata,setpostdata]=useState({});
+  const[studentlist,setstudentlist]=useState([]);
   const navigate = useNavigate();
-  const post = posts.find((p) => p.id === parseInt(id));
+  const role=localStorage.getItem("role");
 
-  if (!post) {
+  useEffect(()=>{
+    const fetchpost=async()=>{
+      try{
+        const response = await fetch(`http://localhost:5173/getindividualPost/${post_id}`);
+        if(response.ok){
+          const data = await response.json();
+          console.log(data);
+          setpostdata(data.data);
+        }else{
+          throw new Error("Failed to fetch posts");
+        }
+      }catch(error){
+        console.error("Error fetching posts:", error);
+      }
+    }
+    fetchpost();
+  },[]);
+  //const post = posts.find((p) => p.id === parseInt(id));
+
+  const fetchList=async(post_id)=>{
+    try{
+      const response = await fetch(`http://localhost:5173/getStudentlist/${post_id}`);
+      if(response.ok){
+        const data = await response.json();
+        console.log(data);
+        setstudentlist(data.data);
+      }else{
+        throw new Error("Failed to fetch posts");
+      }
+    }catch(error){
+      console.error("Error fetching posts:", error);
+    }
+  }
+
+  if (!postdata) {
     return <p>Post not found.</p>;
   }
 
   return (
-    <div className="p-10 bg-gray-100 min-h-screen flex">
+    <div className="flex min-h-screen p-10 bg-gray-100">
       <img
-        src={post.image}
+        src={postdata.image}
         alt="Post"
         className="w-1/2 h-auto rounded-lg shadow-lg"
       />
       <div className="ml-10">
-        <h1 className="text-3xl font-bold mb-6">{post.description}</h1>
+        <h1 className="mb-6 text-3xl font-bold">{postdata.description}</h1>
         <p className="mb-4">
-          <strong>From:</strong> {post.fromDate}
+          <strong>From:</strong> {postdata.fromDate}
         </p>
         <p className="mb-4">
-          <strong>To:</strong> {post.toDate}
+          <strong>To:</strong> {postdata.toDate}
         </p>
         <p className="mb-4">
-          <strong>Registration Limit:</strong> {post.registrationLimit}
+          <strong>Registration Limit:</strong> {postdata.registrationLimit}
         </p>
-        <p>
-        <strong className="text-gray-700">Registered Number:</strong>{" "}
-        <button 
-         onClick={() => handleClick()} 
-         className="py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-    >
-        {post.registeredNumber}
-    </button>
-  </p>
+        {role=="staff"?<p>
+          <strong className="text-gray-700">Registered Number:</strong>{" "}
+          <button 
+           onClick={() => fetchList(postdata.id)} 
+           className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+      >
+          {postdata.registeredNumber}
+      </button>
+    </p>
+        :<div>
+          <label>Register</label>
+          <input type="checkbox"/>
+          </div>}
+        
         <p className="mb-4">
           <strong>Document:</strong>{" "}
           <a
-            href={`/${post.document}`}
+            href={`/${postdata.document}`}
             download
             className="text-blue-600 underline"
           >
-            {post.document}
+            {postdata.document}
           </a>
         </p>
         <p className="mb-4">
           <strong>Link:</strong>{" "}
           <a
-            href={post.link}
+            href={postdata.link}
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-600 underline"
           >
-            {post.link}
+            {postdata.link}
           </a>
         </p>
         <button
           onClick={() => navigate(-1)}
-          className="mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg"
+          className="px-4 py-2 mt-6 text-white bg-blue-600 rounded-lg"
         >
           Back to Dashboard
         </button>

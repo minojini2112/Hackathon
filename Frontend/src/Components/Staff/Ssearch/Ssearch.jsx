@@ -21,7 +21,7 @@ const Ssearch = () => {
     const fetchStudentData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3005/getprofile",
+          "http://localhost:3005/getallProfile",
           {
             method: "GET",
           }
