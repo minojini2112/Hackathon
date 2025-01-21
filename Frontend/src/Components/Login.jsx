@@ -1,12 +1,31 @@
-import  { useState } from "react";
+import  { useEffect, useState } from "react";
 import {  Link , useNavigate } from "react-router-dom";
 const Login = () => {
     const navigate = useNavigate();
+    const[profile,setProfile]=useState({});
+    const userId = localStorage.getItem("user_id");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
+  
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch(
+          `https://hackathon-fw7v.onrender.com/getprofile/${userId}`
+        );
+        if (response.ok) {
+          const result = await response.json();
+          setProfile(result.data);
+        }
+      } catch (error) {
+        console.log("An error occured", error);
+      }
+    };
+    fetchProfile();
+  }, [userId]);
+  
   const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
@@ -17,7 +36,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://placement-connect.onrender.com/login", {
+      const response = await fetch("https://hackathon-fw7v.onrender.com/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +49,11 @@ const Login = () => {
         localStorage.setItem("user_id",result.data.id);
         localStorage.setItem("role",result.data.role);
         setMessage(result.message || "Login successful!");
-        navigate("/dashboard");
+        if (profile){
+          navigate("/dashboard");
+        }else{
+          navigate("/dashboard/profile");
+        }
       } else {
         const error = await response.json();
         setMessage(error.message || "Login failed.");
@@ -92,4 +115,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Login

@@ -10,7 +10,7 @@ const Sidemenu = () => {
     const fetchProfile = async () => {
       try {
         const response = await fetch(
-          `https://placement-connect.onrender.com/getprofile/${userId}`
+          `https://hackathon-fw7v.onrender.com/getprofile/${userId}`
         );
         if (response.ok) {
           const result = await response.json();
@@ -28,7 +28,7 @@ const Sidemenu = () => {
       <div className="w-[110px] h-[110px] border-[1px] border-[#039ee3] rounded-full overflow-hidden">
         <img
           src={
-            profile.image ||
+            profile?.image? profile.image:
             "https://ik.imagekit.io/mino2112/css%20driving%20skl/woman.png?updatedAt=1725791888913"
           }
           alt="Profile"
@@ -59,8 +59,8 @@ const Sidemenu = () => {
         <h2 className="hover:bg-[#039ee3] hover:text-[#0e2f44] p-2 rounded-md cursor-pointer">
           <Link to="/dashboard/notifications">Notifications</Link>
         </h2>
-        <h2>
-          {role ==="student"?
+        <h2 className="hover:bg-[#039ee3] hover:text-[#0e2f44] p-2 rounded-md cursor-pointer">
+          {role ==="staff"?
           (<Link to ="/staff/search">Student Search</Link>): ""}
         </h2>
 
