@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import Dashboard from "./Components/Student/Dashboard/Dashboard";
+import PostDetails from "./Components/Student/Dashboard/postDetails";
 import Profile from "./Components/Student/Profile/Profile"
 import Notifications from "./Components/Student/Notifications/Notifications";
 import Sidemenu from "./Components/Sidemenu";
@@ -46,6 +47,10 @@ const Router = createBrowserRouter([
                 element: <Participation />,
             },
         ],
+    },
+    {
+        path: "post/:id", // This will match /dashboard/post/:id
+        element: <PostDetails />,
     },
     {
         path: "/signin",

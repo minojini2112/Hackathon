@@ -28,8 +28,8 @@ const Sidemenu = () => {
       <div className="w-[110px] h-[110px] border-[1px] border-[#039ee3] rounded-full overflow-hidden">
         <img
           src={
-            profile.image ||
-            "https://ik.imagekit.io/mino2112/css%20driving%20skl/woman.png?updatedAt=1725791888913"
+            profile?.image? profile.image :
+              "https://ik.imagekit.io/mino2112/css%20driving%20skl/woman.png?updatedAt=1725791888913"
           }
           alt="Profile"
           className="object-cover w-full h-full"
@@ -60,8 +60,8 @@ const Sidemenu = () => {
           <Link to="/dashboard/notifications">Notifications</Link>
         </h2>
         <h2>
-          {role ==="student"?
-          (<Link to ="/staff/search">Student Search</Link>): ""}
+          {role === "staff" ?
+            (<Link to="/staff/search">Student Search</Link>) : ""}
         </h2>
 
         <hr className="border-t-2 border-[#039ee3]" />

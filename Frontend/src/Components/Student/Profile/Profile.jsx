@@ -36,54 +36,60 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
     }
   };
 
-  const handleSubmit = async () => {
-<<<<<<< HEAD
-    const input = new FormData(); 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
   
-    for (const key in profileData) {
-      input.append(key, profileData[key]);
-=======
+    const requiredFields = [
+      'name', 'department', 'year', 'section', 'register_number', 'roll_no', 'batch'
+    ];
+  
+    for (const field of requiredFields) {
+      if (!formData[field].trim()) {
+        alert(`Please fill in the ${field.replace('_', ' ')} field.`);
+        return;
+      }
+    }
+  
+    // Validate register number to be exactly 12 digits
+    if (!/^\d{12}$/.test(formData.register_number.trim())) {
+      alert('Register number must be exactly 12 digits (numbers only).');
+      return;
+    }
+  
+    // Check if an image file is uploaded
+    if (!formData.image) {
+      alert('Please choose a file to upload.');
+      return;
+    }
+  
     const input = new FormData();
-    
     for (const key in formData) {
       if (key === 'image' && formData[key] instanceof File) {
-        input.append(key, formData[key]); // Append file directly
+        input.append(key, formData[key]);
       } else {
         input.append(key, formData[key]);
       }
->>>>>>> d12934d9e99f3efa655af139a6c67f55b8de7ce5
     }
   
     try {
       const response = await fetch(`https://placement-connect.onrender.com/profile/${userId}`, {
         method: 'POST',
-<<<<<<< HEAD
-        body: input, 
-=======
         body: input,
->>>>>>> d12934d9e99f3efa655af139a6c67f55b8de7ce5
       });
   
       if (response.ok) {
         const data = await response.json();
-<<<<<<< HEAD
-        setProfileData(data.data); 
-        alert('Profile details added successfully!');
-      } else {
-        console.error('Error:', response.statusText);
-        alert('Failed to add profile details. Please try again.');
-=======
         setProfileData(data.data);
         alert('Profile details added successfully!');
       } else {
         const errorMessage = await response.text();
         console.error(`Server Error: ${errorMessage}`);
         alert(`Failed to add profile details: ${errorMessage}`);
->>>>>>> d12934d9e99f3efa655af139a6c67f55b8de7ce5
       }
     } catch (error) {
-      console.error('Fetch error:', error); 
-    }finally{
+      console.error('Fetch error:', error);
+      alert('An error occurred while saving your profile.');
+    } finally {
       window.location.reload();
     }
   };
@@ -278,7 +284,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
   return (
     <div className="w-full h-screen bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] ml-[250px]">
       <div className="flex flex-col w-full max-w-screen-xl p-8 mx-auto md:flex-row">
-        {/* Profile Image & Basic Info */}
+        {/* Profile Image & Basic Info*/ }
         <div className="flex flex-col items-center justify-center p-8 md:w-1/3">
           <div className="w-[150px] h-[150px] border-4 border-black rounded-full overflow-hidden mb-4">
             <img
@@ -292,7 +298,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
           <h4 className="text-gray-800 text-md">{profileData.department}</h4>
         </div>
 
-        {/* Academic Details */}
+        {/*Academic Details */}
         <div className="flex flex-col justify-center p-8 md:w-2/3">
           <div className="p-6 mb-6 text-gray-800 rounded-lg shadow-xl">
             <h3 className="text-2xl font-semibold mb-4 border-b-2 border-[#039ee3] pb-2">Academic Details</h3>
@@ -304,7 +310,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
             </div>
           </div>
 
-          {/* Incharge Details */}
+         {/*Incharge Details*/ }
           <div className="p-6 text-gray-800 rounded-lg shadow-xl">
             <h3 className="text-2xl font-semibold mb-4 border-b-2 border-[#039ee3] pb-2">Incharge</h3>
             <div className="grid grid-cols-1 gap-4">
@@ -316,7 +322,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
         </div>
       </div>
 
-      {/* Edit Button */}
+    {/* Edit Button */}
       <button
         onClick={() => setIsEditing(true)}
         className="fixed bottom-8 right-8 p-4 bg-[#039ee3] text-white rounded-full shadow-lg hover:bg-[#0288d1] cursor-pointer"
@@ -420,3 +426,4 @@ const Profile = () => {
     }      
     
 export default Profile;
+
