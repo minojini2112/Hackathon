@@ -38,10 +38,9 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
 
   const handleSubmit = async () => {
     const input = new FormData();
-    
     for (const key in formData) {
       if (key === 'image' && formData[key] instanceof File) {
-        input.append(key, formData[key]); // Append file directly
+        input.append(key, formData[key]);
       } else {
         input.append(key, formData[key]);
       }
@@ -63,8 +62,9 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
         alert(`Failed to add profile details: ${errorMessage}`);
       }
     } catch (error) {
-      console.error('Fetch error:', error); 
-    }finally{
+      console.error('Fetch error:', error);
+      alert('An error occurred while saving your profile.');
+    } finally {
       window.location.reload();
     }
   };
@@ -259,7 +259,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
   return (
     <div className="w-full h-screen bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] ml-[250px]">
       <div className="flex flex-col w-full max-w-screen-xl p-8 mx-auto md:flex-row">
-        {/* Profile Image & Basic Info */}
+        {/* Profile Image & Basic Info*/ }
         <div className="flex flex-col items-center justify-center p-8 md:w-1/3">
           <div className="w-[150px] h-[150px] border-4 border-black rounded-full overflow-hidden mb-4">
             <img
@@ -273,7 +273,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
           <h4 className="text-gray-800 text-md">{profileData.department}</h4>
         </div>
 
-        {/* Academic Details */}
+        {/*Academic Details */}
         <div className="flex flex-col justify-center p-8 md:w-2/3">
           <div className="p-6 mb-6 text-gray-800 rounded-lg shadow-xl">
             <h3 className="text-2xl font-semibold mb-4 border-b-2 border-[#039ee3] pb-2">Academic Details</h3>
@@ -285,7 +285,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
             </div>
           </div>
 
-          {/* Incharge Details */}
+         {/*Incharge Details*/ }
           <div className="p-6 text-gray-800 rounded-lg shadow-xl">
             <h3 className="text-2xl font-semibold mb-4 border-b-2 border-[#039ee3] pb-2">Incharge</h3>
             <div className="grid grid-cols-1 gap-4">
@@ -297,7 +297,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
         </div>
       </div>
 
-      {/* Edit Button */}
+    {/* Edit Button */}
       <button
         onClick={() => setIsEditing(true)}
         className="fixed bottom-8 right-8 p-4 bg-[#039ee3] text-white rounded-full shadow-lg hover:bg-[#0288d1] cursor-pointer"
@@ -401,3 +401,4 @@ const Profile = () => {
     }      
     
 export default Profile;
+
