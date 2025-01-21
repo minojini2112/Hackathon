@@ -57,27 +57,27 @@ const Notifications = () => {
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto bg-[#0A5175] hover:bg-[##0A4A6A] transition-all duration-300 rounded-lg shadow-md">
-    <h2 className="mb-4 text-xl font-semibold text-prussian blue">Notifications</h2>
-    {newNotification && (
-      <p className="mb-4 text-sm text-red-500">New notification available!</p>
-    )}
-      <ul className="space-y-3">
+    <div className="p-8 max-w-md mx-auto bg-gradient-to-r from-[#2c3e50] to-[#34495e] rounded-xl shadow-lg transition-transform transform hover:scale-105">
+      <h2 className="mb-4 text-2xl font-semibold text-white">Notifications</h2>
+      {newNotification && (
+        <p className="mb-6 text-sm text-yellow-300">New notification available!</p>
+      )}
+      <ul className="space-y-4">
         {notifications.map((notif) => (
           <li
             key={notif.id}
             onClick={() => handleNotificationClick(notif.id)}
-            className={`p-4 border rounded-lg shadow-sm cursor-pointer ${
-              notif.read ? "bg-gray-200" : "bg-[white]"
-            } hover:bg-gray-300`}
+            className={`p-5 rounded-xl transition-all duration-300 cursor-pointer ${
+              notif.read
+                ? "bg-[#f2f2f2] text-gray-600 hover:bg-[#e0e0e0]"
+                : "bg-white text-gray-800 hover:bg-[#f9f9f9]"
+            } hover:shadow-xl hover:border-2 border-gray-300`}
           >
-            <div className="flex items-start">
-              <div className="w-10 h-10 mr-3 bg-gray-300 rounded-full"></div>
-              <div>
-                <p className="text-sm font-medium text-gray-800">
-                  {notif.message}
-                </p>
-                <p className="text-xs text-gray-500">{notif.timestamp}</p>
+            <div className="flex items-start space-x-4">
+              <div className="w-12 h-12 bg-gray-400 rounded-full"></div>
+              <div className="w-full">
+                <p className="text-lg font-medium">{notif.message}</p>
+                <p className="mt-1 text-sm text-gray-500">{notif.timestamp}</p>
               </div>
             </div>
           </li>

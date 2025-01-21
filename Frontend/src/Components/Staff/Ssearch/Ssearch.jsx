@@ -21,7 +21,7 @@ const Ssearch = () => {
     const fetchStudentData = async () => {
       try {
         const response = await fetch(
-          "https://hackathon-fw7v.onrender.com/profile",
+          "http://localhost:3005/getprofile",
           {
             method: "GET",
           }
