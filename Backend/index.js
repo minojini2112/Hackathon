@@ -297,7 +297,6 @@ try{
 app.post("/studentPost", async(req,res)=>{
    const data = req.body;
    try{
-
    }catch(error){
     console.log("An error occured",error);
     return res.status(500).json({message:"An error occured",data:error});
