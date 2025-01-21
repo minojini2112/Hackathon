@@ -228,7 +228,7 @@ app.get("/getparticipation/:user_id",async (req,res)=>{
   
 });
 
-app.post("/addPost",upload.fields([{ name: 'image', maxCount: 5 }, { name: 'pdf', maxCount: 1 }]),async(req,res)=>{
+app.post("/addPost",upload.fields([{ name: 'image', maxCount: 5 }, { name: 'pdf', maxCount: 1 }]),async (req,res)=>{
   const data = req.body;
 
   const imageUrls = req.files['image']
@@ -253,7 +253,7 @@ const documentUrl = req.files['pdf'] && req.files['pdf'][0] ? req.files['pdf'][0
     });
     return res.status(200).json({message:"Post created successfully",data:postData});
   }catch(error){
-    console.log("An error occured",error);
+    //console.log("An error occured",error);
     return res.status(500).json({message:"An error occured",data:error});
   }
 });
