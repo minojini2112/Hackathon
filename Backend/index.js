@@ -261,7 +261,7 @@ const documentUrl = req.files['pdf'] && req.files['pdf'][0] ? req.files['pdf'][0
       console.error('Prisma error:', err);
       throw err;
     });
-    
+
     return res.status(200).json({message:"Post created successfully",data:postData});
   }catch(error){
     console.log("An error occured",error);
@@ -284,7 +284,7 @@ const {post_id} = req.params;
 try{
   const postData = await prisma.post.findUnique({
     where:{
-      post_id : parseInt(post_id),
+      id : parseInt(post_id),
     },
   });
   return res.status(200).json({message:"Post details fetched",data:postData});
