@@ -13,12 +13,15 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch("http://localhost:5173/getallPost");
-        if (!response.ok) {
-          throw new Error("Failed to fetch posts");
-        }
-        const data = await response.json();
+        const response = await fetch("http://localhost:3005/getallPost");
+        if (response.ok) {
+          const data = await response.json();
         setPosts(data.data);
+        console.log(data.data);
+        }else{
+          console.log("error",response.data);
+        }
+        
   // Set the fetched posts to state
       } catch (error) {
         console.error("Error fetching posts:", error);

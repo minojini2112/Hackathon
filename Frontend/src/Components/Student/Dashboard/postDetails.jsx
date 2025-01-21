@@ -40,7 +40,7 @@ const PostDetails = () => {
   useEffect(()=>{
     const fetchpost=async()=>{
       try{
-        const response = await fetch(`http://localhost:5173/getindividualPost/${post_id}`);
+        const response = await fetch(`http://localhost:3005/getindividualPost/${post_id}`);
         if(response.ok){
           const data = await response.json();
           console.log(data);
@@ -58,7 +58,7 @@ const PostDetails = () => {
 
   const fetchList=async(post_id)=>{
     try{
-      const response = await fetch(`http://localhost:5173/getStudentlist/${post_id}`);
+      const response = await fetch(`http://localhost:3005/getStudentlist/${post_id}`);
       if(response.ok){
         const data = await response.json();
         console.log(data);
@@ -101,6 +101,7 @@ const PostDetails = () => {
       >
           {postdata.registeredNumber}
       </button>
+      <listpage list={studentlist}/>
     </p>
         :<div>
           <label>Register</label>

@@ -4,6 +4,7 @@ const Login = () => {
     const navigate = useNavigate();
     const[profile,setProfile]=useState({});
     const userId = localStorage.getItem("user_id");
+    const role =localStorage.getItem("role");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -53,7 +54,12 @@ const Login = () => {
         if (profile){
           navigate("/dashboard");
         }else{
-          navigate("/dashboard/profile");
+          if(role==="student"){
+            navigate("/dashboard/profile");
+          }else{
+            navigate("/dashboard");
+          }
+          
         }
       } else {
         const error = await response.json();
