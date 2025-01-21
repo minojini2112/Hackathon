@@ -1,32 +1,61 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const Spost = () => {
-  
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    staff_id: localStorage.getItem("user_id"),
     description: "",
-    image: null,
-    document: null,
     link: "",
     fromDate: "",
     toDate: "",
     registrationLimit: "",
-  
   });
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (files) {
-      setFormData({ ...formData, [name]: files[0] });
+      setFormData({ ...formData, [name]: files[0] }); 
     } else {
       setFormData({ ...formData, [name]: value });
     }
   };
+  
+  const handleSubmit = async (e) => {
 
-  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Add logic to handle post submission
+    const input = new FormData();
+  
+    for (const key in formData) {
+      if (key === 'image' || key === 'pdf') {
+        input.append(key, formData[key]);
+      } else {
+        input.append(key, formData[key]);
+      }
+    }  
+  
+    try {
+      const response = await fetch(`http://localhost:3005/addPost`, {
+        method: 'POST',
+        body: input,
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log("post details",data.data);
+        alert('Post added successfully!');
+        navigate("/dashboard");
+      } else {
+        const errorMessage = await response.text();
+        console.error(`Server Error: ${errorMessage}`);
+        alert(`Failed to add profile details: ${errorMessage}`);
+      }
+    } catch (error) {
+      console.error('Fetch error:', error); 
+    }finally{
+      window.location.reload();
+    }
   };
 
   return (
@@ -63,7 +92,7 @@ const Spost = () => {
             <label className="block mb-2 font-medium text-gray-700">Upload Document</label>
             <input
               type="file"
-              name="document"
+              name="pdf"
               onChange={handleChange}
               className="w-full px-4 py-2 border rounded-md"
             />
@@ -139,7 +168,6 @@ const Spost = () => {
   );
 };
 
-// PropTypes validation
 Spost.propTypes = {
   userId: PropTypes.string,
 };
