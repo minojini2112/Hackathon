@@ -40,7 +40,7 @@ const Signin = () => {
     if (!validateFields()) return;
 
     try {
-      const response = await fetch("https://placement-connect.onrender.com/signin", {
+      const response = await fetch("https://hackathon-fw7v.onrender.com/signin", {
         method: "POST",
         headers: {    
           "Content-Type": "application/json",
@@ -50,6 +50,8 @@ const Signin = () => {
 
       if (response.ok) {
         const result = await response.json();
+        localStorage.setItem("user_id",result.data.id);
+        localStorage.setItem("role",result.data.role);
         setMessage(result.message || "Signup successful!");
         toast.success(result.message || "Signup successful!");
         navigate("/");

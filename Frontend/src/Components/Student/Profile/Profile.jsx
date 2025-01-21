@@ -36,32 +36,7 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    const requiredFields = [
-      'name', 'department', 'year', 'section', 'register_number', 'roll_no', 'batch'
-    ];
-  
-    for (const field of requiredFields) {
-      if (!formData[field].trim()) {
-        alert(`Please fill in the ${field.replace('_', ' ')} field.`);
-        return;
-      }
-    }
-  
-    // Validate register number to be exactly 12 digits
-    if (!/^\d{12}$/.test(formData.register_number.trim())) {
-      alert('Register number must be exactly 12 digits (numbers only).');
-      return;
-    }
-  
-    // Check if an image file is uploaded
-    if (!formData.image) {
-      alert('Please choose a file to upload.');
-      return;
-    }
-  
+  const handleSubmit = async () => {
     const input = new FormData();
     for (const key in formData) {
       if (key === 'image' && formData[key] instanceof File) {
@@ -72,7 +47,7 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
     }
   
     try {
-      const response = await fetch(`https://placement-connect.onrender.com/profile/${userId}`, {
+      const response = await fetch(`https://hackathon-fw7v.onrender.com/profile/${userId}`, {
         method: 'POST',
         body: input,
       });
@@ -96,7 +71,7 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
   
   return (
     <div className="flex items-center ml-[250px] justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9]">
-      <form onSubmit={handleSubmit} className="p-8 bg-white rounded-lg shadow-md w-[1000px]">
+      <form onSubmit={handleSubmit} className="p-8 bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] rounded-lg shadow-md w-[1000px]">
         <h2 className="mb-6 text-2xl font-bold text-gray-800">
           {!isEditing ? 'Edit Profile Details' : 'Enter Profile Details'}
         </h2>
@@ -377,7 +352,7 @@ const Profile = () => {
       
         const fetchProfile = async () => {
           try {
-            const response = await fetch(`https://placement-connect.onrender.com/getprofile/${userId}`);
+            const response = await fetch(`https://hackathon-fw7v.onrender.com/getprofile/${userId}`);
             if (!response.ok) {
               throw new Error('Error fetching profile data.');
             }

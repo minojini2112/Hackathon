@@ -7,19 +7,19 @@ const Participation = () => {
   const [add, setAdd] = useState(false);
   const [history , setHistory]= useState([]);
   const [data, setData] = useState({
-    "user_id": 1,
+    "user_id": localStorage.getItem("user_id"),
   });
   const [pdf , setPdf] =useState();
   const [image , setImage]=useState([]);
   const [loading, setLoading] = useState(false);
-  const userId=1;
+  const userId=localStorage.getItem("user_id");
   
   useEffect(() => {
     setLoading(true);
     const fetchParticipation = async () => {
       try {
         const data = await fetch(
-          `https://placement-connect.onrender.com/getparticipation/${userId}`
+          `https://hackathon-fw7v.onrender.com/getparticipation/${userId}`
         );
         const response = await data.json();
         setHistory(response.data);
@@ -62,7 +62,7 @@ const handleSubmit = async()=>{
     formData.append("image", image[i]); 
   }
   try{
-    const requestData = await fetch(" https://placement-connect.onrender.com/participation",{
+    const requestData = await fetch("https://hackathon-fw7v.onrender.com/participation",{
       method:"POST",
       body: formData
      })
