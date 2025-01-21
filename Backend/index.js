@@ -151,6 +151,16 @@ app.post("/profile/:user_id", upload.single('image'), async (req, res) => {
   }
 });
 
+app.get("/getallProfile", async(req,res)=>{
+  try{
+  const  allProfile = await prisma.profile.findMany();
+  return res.status(200).json({message:"All profiles fetched",data: allProfile});
+  }catch (error) {
+    console.error("Error fetching profile:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 // Get Profile Route
 app.get("/getprofile/:user_id", async (req, res) => {
   const { user_id } = req.params;
@@ -297,7 +307,54 @@ try{
 app.post("/studentPost", async(req,res)=>{
    const data = req.body;
    try{
+    const registeredNum = await prisma.post.findUnique({
+      where:{
+        id: parseInt(data.post_id),
+      },
+      select:{
+        registeredNumber: true,
+      },
+    });
+    const updateNum = await prisma.post.update({
+      where:{
+        id : parseInt(data.post_id),
+      }, data:{
+        registeredNumber:parseInt(registeredNum.registeredNumber + 1),
+      },
+    });
+    const addStudentList = await prisma.studentpost.create({
+      data:{
+        post_id: parseInt(data.post_id),
+        student_id : parseInt(data.student_id),
+      },
+    });
+    return res.status(200).json({message:"All changes updated succeffully",data:{"registeredNumber":updateNum,"studentAdded": addStudentList}});
    }catch(error){
+    console.log("An error occured",error);
+    return res.status(500).json({message:"An error occured",data:error});
+   }
+});
+
+app.get("/getStudentList/:post_id", async(req,res)=>{
+    const {post_id}= req.params;
+    try{
+      const studentList = await prisma.studentpost.findMany({
+        where:{
+          post_id: parseInt(post_id),
+        }, 
+      });
+      const finalList = await Promise.all(
+        studentList.map(async (student) => {
+          const studentData = await prisma.profile.findUnique({
+            where: {
+              user_id: parseInt(student.student_id),
+            },
+          });
+          return studentData; 
+        })
+      );
+      return res.status(200).json({message:"List details fetched",data: finalList});
+    }catch(error){
     console.log("An error occured",error);
     return res.status(500).json({message:"An error occured",data:error});
    }
