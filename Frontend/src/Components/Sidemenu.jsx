@@ -10,7 +10,7 @@ const Sidemenu = () => {
     const fetchProfile = async () => {
       try {
         const response = await fetch(
-          `https://hackathon-fw7v.onrender.com/getprofile/${userId}`
+          `https://hackathon-y591.onrender.com/getprofile/${userId}`
         );
         if (response.ok) {
           const result = await response.json();

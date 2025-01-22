@@ -20,7 +20,7 @@ const Ssearch = () => {
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const response = await fetch("http://localhost:3005/getallProfile");
+        const response = await fetch("https://hackathon-y591.onrender.com/getallProfile");
         if (!response.ok) throw new Error(await response.text());
         const data = await response.json();
         setOriginalData(data.data || []);

@@ -14,7 +14,7 @@ const Login = () => {
     const fetchProfile = async () => {
       try {
         const response = await fetch(
-          `https://hackathon-fw7v.onrender.com/getprofile/${userId}`
+          `https://hackathon-y591.onrender.com/getprofile/${userId}`
         );
         if (response.ok) {
           const result = await response.json();
@@ -37,7 +37,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://hackathon-fw7v.onrender.com/login", {
+      const response = await fetch("https://hackathon-y591.onrender.com/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,7 +73,7 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center h-screen bg-[url('https://vcet.ac.in/vcetit/images/it_service/VCET.jpeg')] bg-cover">
-      <div className="w-full max-w-md p-8 space-y-6 bg-red-900  bg-rounded-lg mx-auto">
+      <div className="w-full max-w-md p-8 mx-auto space-y-6 bg-red-900 bg-rounded-lg">
         <h2 className="text-2xl font-bold text-center text-white">Login</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

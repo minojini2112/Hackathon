@@ -11,13 +11,13 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch("http://localhost:3005/getallPost");
-        const data = await response.json();
+        const response = await fetch("https://hackathon-y591.onrender.com/getallPost");
         if (response.ok) {
+          const data = await response.json();
         setPosts(data.data);
         console.log(data.data);
         }else{
-          console.log("error",data.data);
+          console.log("error",response.data);
         }
         
   // Set the fetched posts to state
@@ -88,8 +88,6 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
-
 
 
 

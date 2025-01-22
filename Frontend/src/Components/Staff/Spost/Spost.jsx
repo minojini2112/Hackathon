@@ -36,7 +36,7 @@ const Spost = () => {
     }  
   
     try {
-      const response = await fetch(`http://localhost:3005/addPost`, {
+      const response = await fetch(`https://hackathon-y591.onrender.com/addPost`, {
         method: 'POST',
         body: input,
       });
