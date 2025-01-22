@@ -13,7 +13,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch("http://localhost:3005/getallPost");
+        const response = await fetch("https://hackathon-y591.onrender.com/getallPost");
         if (response.ok) {
           const data = await response.json();
         setPosts(data.data);
@@ -47,7 +47,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-10 bg-gradient-to-br from-white via-[#eaf7fc] to-[#d1f0fa] h-screen ml-[250px] w-[90%]">
+    <div className="p-10 bg-gradient-to-br from-white via-[#eaf7fc] to-[#d1f0fa] min-h-screen ml-[250px] w-[90%]">
       <h1 className="bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9]">
         Dashboard
       </h1>

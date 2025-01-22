@@ -14,31 +14,22 @@ const Ssearch = () => {
 
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [displayedData, setDisplayedData] = useState([]);
+  const [originalData, setOriginalData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch data from API
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const response = await fetch(
-          "/getallProfile",
-          {
-            method: "GET",
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setDisplayedData(data.students); // Assuming the API returns an array of students
-          setLoading(false);
-        } else {
-          const errorMessage = await response.text();
-          console.error(`Server Error: ${errorMessage}`);
-          alert(`Failed to fetch student details: ${errorMessage}`);
-        }
+        const response = await fetch("https://hackathon-y591.onrender.com/getallProfile");
+        if (!response.ok) throw new Error(await response.text());
+        const data = await response.json();
+        setOriginalData(data.data || []);
+        setDisplayedData(data.data || []);
       } catch (error) {
         console.error("Fetch error:", error);
-        alert("An error occurred while fetching student details.");
+        alert(`An error occurred: ${error.message}`);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -88,15 +79,16 @@ const Ssearch = () => {
       staffInCharge: [],
       placementInCharge: [],
     });
-    setDisplayedData([]); // Reset to all data
+    setDisplayedData(originalData);
+    console.log(Array.isArray(displayedData)); 
   };
 
   const applyFilters = () => {
-    const filteredData = displayedData.filter((item) => {
+    const filteredData = originalData.filter((item) => {
       return (
-        (!filters.name || item.name.toLowerCase().includes(filters.name.toLowerCase())) &&
-        (!filters.registerNumber || item.registerNumber.includes(filters.registerNumber)) &&
-        (!filters.rollNumber || item.rollNumber.includes(filters.rollNumber)) &&
+        (!filters.name || item.name?.toLowerCase().includes(filters.name.toLowerCase())) &&
+        (!filters.registerNumber || item.registerNumber?.includes(filters.registerNumber)) &&
+        (!filters.rollNumber || item.rollNumber?.includes(filters.rollNumber)) &&
         (filters.departments.length === 0 || filters.departments.includes(item.departments)) &&
         (filters.year.length === 0 || filters.year.includes(item.year)) &&
         (filters.section.length === 0 || filters.section.includes(item.section)) &&
@@ -113,9 +105,9 @@ const Ssearch = () => {
         <p>Loading...</p>
       ) : (
         <>
+          {/* Filters */}
           <div className="flex flex-wrap gap-2">
-            {/* Text Inputs */}
-            {["Name", "RegisterNumber", "RollNumber"].map((field) => (
+            {["name", "registerNumber", "rollNumber"].map((field) => (
               <div key={field} className="w-full sm:w-1/5">
                 <input
                   type="text"
@@ -156,16 +148,10 @@ const Ssearch = () => {
 
           {/* Actions */}
           <div className="flex justify-between mt-6">
-            <button
-              className="text-sm text-red-500 underline"
-              onClick={clearFilters}
-            >
+            <button className="text-sm text-red-500 underline" onClick={clearFilters}>
               Clear All
             </button>
-            <button
-              className="px-4 py-2 text-white bg-blue-500 rounded-md"
-              onClick={applyFilters}
-            >
+            <button className="px-4 py-2 text-white bg-blue-500 rounded-md" onClick={applyFilters}>
               Apply Filters
             </button>
           </div>
@@ -193,18 +179,26 @@ const Ssearch = () => {
                 </tr>
               </thead>
               <tbody>
-                {displayedData.map((item, index) => (
-                  <tr key={index}>
-                    <td className="p-2 border border-gray-300">{item.name}</td>
-                    <td className="p-2 border border-gray-300">{item.registerNumber}</td>
-                    <td className="p-2 border border-gray-300">{item.rollNumber}</td>
-                    <td className="p-2 border border-gray-300">{item.departments}</td>
-                    <td className="p-2 border border-gray-300">{item.year}</td>
-                    <td className="p-2 border border-gray-300">{item.section}</td>
-                    <td className="p-2 border border-gray-300">{item.staffInCharge}</td>
-                    <td className="p-2 border border-gray-300">{item.placementInCharge}</td>
+                {displayedData.length > 0 ? (
+                  displayedData.map((item, index) => (
+                    <tr key={index}>
+                      <td className="p-2 border border-gray-300">{item.name}</td>
+                      <td className="p-2 border border-gray-300">{item.register_number}</td>
+                      <td className="p-2 border border-gray-300">{item.roll_no}</td>
+                      <td className="p-2 border border-gray-300">{item.department}</td>
+                      <td className="p-2 border border-gray-300">{item.year}</td>
+                      <td className="p-2 border border-gray-300">{item.section}</td>
+                      <td className="p-2 border border-gray-300">{item.staff_incharge}</td>
+                      <td className="p-2 border border-gray-300">{item.placement_head}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="8" className="p-2 text-center border border-gray-300">
+                      No data found.
+                    </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
@@ -214,40 +208,30 @@ const Ssearch = () => {
   );
 };
 
-// Dropdown Component
-const Dropdown = ({
-  label,
-  options,
-  selected,
-  onChange,
-  isActive,
-  onToggle,
-}) => {
-  return (
-    <div className="relative inline-block w-full sm:w-1/5">
-      <button
-        className="flex items-center justify-between w-full px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm"
-        onClick={onToggle}
-      >
-        {label} {selected.length > 0 ? `(${selected.length})` : ""}
-        <span className="ml-2">&#9660;</span>
-      </button>
-      {isActive && (
-        <div className="absolute z-10 w-full p-4 mt-2 bg-white border border-gray-300 rounded-md shadow-lg">
-          {options.map((option) => (
-            <label key={option} className="flex items-center mb-2 space-x-2">
-              <input
-                type="checkbox"
-                checked={selected.includes(option)}
-                onChange={() => onChange(option)}
-              />
-              <span>{option}</span>
-            </label>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+const Dropdown = ({ label, options, selected, onChange, isActive, onToggle }) => (
+  <div className="relative inline-block w-full sm:w-1/5">
+    <button
+      className="flex items-center justify-between w-full px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm"
+      onClick={onToggle}
+    >
+      {label} {selected.length > 0 ? `(${selected.length})` : ""}
+      <span className="ml-2">&#9660;</span>
+    </button>
+    {isActive && (
+      <div className="absolute z-10 w-full p-4 mt-2 bg-white border border-gray-300 rounded-md shadow-lg">
+        {options.map((option, index) => (
+          <label key={`${option}-${index}`} className="flex items-center mb-2 space-x-2">
+            <input
+              type="checkbox"
+              checked={selected.includes(option)}
+              onChange={() => onChange(option)}
+            />
+            <span>{option}</span>
+          </label>
+        ))}
+      </div>
+    )}
+  </div>
+);
 
 export default Ssearch;
