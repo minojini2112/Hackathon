@@ -31,7 +31,9 @@ const listpage=(props)=>{
   
 }
 const PostDetails = () => {
-  const { post_id } = useParams();
+
+  const { id } = useParams();
+  console.log("post id",id);
   const[postdata,setpostdata]=useState({});
   const[studentlist,setstudentlist]=useState([]);
   const navigate = useNavigate();
@@ -40,7 +42,7 @@ const PostDetails = () => {
   useEffect(()=>{
     const fetchpost=async()=>{
       try{
-        const response = await fetch(`http://localhost:3005/getindividualPost/${post_id}`);
+        const response = await fetch(`http://localhost:3005/getindividualPost/${id}`);
         if(response.ok){
           const data = await response.json();
           console.log(data);

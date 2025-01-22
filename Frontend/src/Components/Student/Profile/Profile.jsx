@@ -59,11 +59,9 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
       } else {
         const errorMessage = await response.text();
         console.error(`Server Error: ${errorMessage}`);
-        alert(`Failed to add profile details: ${errorMessage}`);
       }
     } catch (error) {
       console.error('Fetch error:', error);
-      alert('An error occurred while saving your profile.');
     } finally {
       window.location.reload();
     }

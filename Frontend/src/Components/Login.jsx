@@ -72,8 +72,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-[url('https://vcet.ac.in/vcetit/images/it_service/VCET.jpeg')] bg-no-repeat bg-red-900">
-      <div className="w-full max-w-md p-8 space-y-6 bg-red-900  bg-rounded-lg ml-[750px]">
+    <div className="flex items-center justify-center h-screen bg-[url('https://vcet.ac.in/vcetit/images/it_service/VCET.jpeg')] bg-cover">
+      <div className="w-full max-w-md p-8 space-y-6 bg-red-900  bg-rounded-lg mx-auto">
         <h2 className="text-2xl font-bold text-center text-white">Login</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
