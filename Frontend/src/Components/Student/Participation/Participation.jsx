@@ -13,7 +13,8 @@ const Participation = () => {
   const [image , setImage]=useState([]);
   const [loading, setLoading] = useState(false);
   const userId=localStorage.getItem("user_id");
-  
+  const role = localStorage.getItem("role");
+
   useEffect(() => {
     setLoading(true);
     const fetchParticipation = async () => {
@@ -89,26 +90,26 @@ const handleSubmit = async()=>{
       <div className="text-[#0e2f44] font-bold text-2xl">
         Participation Details
       </div>
-      <div>
-        <button
-          onClick={() => {
-            setAdd(true);
-          }}
-          className="bg-[#039ee3] font-semibold p-2 px-3 rounded-lg hover:bg-[#90c2e1] text-black"
-        >
-          Add Participation +
-        </button>
-      </div>
-      <div className="w-[100%]">
-        {add && (
-          <Submission
-            handleInputChange={handleInputChange}
-            pdfUpload ={handlePdfUpload}
-            imageUpload ={handleImageUpload}
-            submit ={handleSubmit}
-          />
-        )}
-      </div>
+       <div>
+      <button
+        onClick={() => {
+          setAdd(true);
+        }}
+        className="bg-[#039ee3] font-semibold p-2 px-3 rounded-lg hover:bg-[#90c2e1] text-black"
+      >
+        Add Participation +
+      </button>
+    </div>
+    <div className="w-[100%]">
+      {add && (
+        <Submission
+          handleInputChange={handleInputChange}
+          pdfUpload ={handlePdfUpload}
+          imageUpload ={handleImageUpload}
+          submit ={handleSubmit}
+        />
+      )}
+    </div>
       <div>
         <p className="text-[#0e2f44] font-semibold text-xl text-center">
           Participation History

@@ -10,6 +10,7 @@ import Login from "./Components/Login";
 import Participation from "./Components/Student/Participation/Participation";
 import Spost from "./Components/Staff/Spost/Spost";
 import Ssearch from "./Components/Staff/Ssearch/Ssearch"
+import StaffParticipation from "./Components/Student/Dashboard/StaffParticipation";
 
 const App = () => {
     return (
@@ -66,6 +67,10 @@ const Router = createBrowserRouter([
             {
                 path:"search",
                 element:<Ssearch/>
+            },
+            {
+                path:"studentParticipation/:student_id",
+                element:<StaffParticipation/>
             },
         ]
     }
