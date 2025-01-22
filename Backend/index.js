@@ -22,7 +22,7 @@ const storage = new CloudinaryStorage({
 
 const corsOptions = {
   origin: (origin, callback) => {
-    const allowedOrigins = ['http://localhost:5173'];
+    const allowedOrigins ="*";
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
