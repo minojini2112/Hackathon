@@ -35,9 +35,28 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
       setFormData({ ...formData, [name]: value });
     }
   };
+    const validateForm = () => {
+    if (!formData.name) return 'Name is required.';
+    if (!formData.year) return 'Year is required.';
+    if (!formData.department) return 'Department is required.';
+    if (!formData.section) return 'Section is required.';
+    if (!formData.register_number) return 'Register number is required.';
+    if (!/^[0-9]{12}$/.test(formData.register_number)) return 'Register number must be 12 digits.';
+    if (!formData.roll_no) return 'Roll number is required.';
+    if (!formData.batch) return 'Batch is required.';
+    if (!formData.image) return 'Please select a file to upload.';
+    return null;
+  };
+    const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = async () => {
-    const input = new FormData();
+    const errorMessage = validateForm();
+    if (errorMessage) {
+      alert(errorMessage);
+      return;
+    }
+
+   const input = new FormData();
     for (const key in formData) {
       if (key === 'image' && formData[key] instanceof File) {
         input.append(key, formData[key]);
@@ -45,6 +64,17 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
         input.append(key, formData[key]);
       }
     }
+
+
+ /*const handleSubmit = async () => {
+    const input = new FormData();
+    for (const key in formData) {
+      if (key === 'image' && formData[key] instanceof File) {
+        input.append(key, formData[key]);
+      } else {
+        input.append(key, formData[key]);
+      }
+    }*/
   
     try {
       const response = await fetch(`https://hackathon-y591.onrender.com/profile/${userId}`, {
@@ -56,15 +86,14 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
         const data = await response.json();
         setProfileData(data.data);
         alert('Profile details added successfully!');
+        window.location.reload();
       } else {
         const errorMessage = await response.text();
         console.error(`Server Error: ${errorMessage}`);
       }
     } catch (error) {
       console.error('Fetch error:', error);
-    } finally {
-      window.location.reload();
-    }
+    } 
   };
   
   return (
@@ -257,7 +286,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
   return (
     <div className="w-full h-screen bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] ml-[250px]">
       <div className="flex flex-col w-full max-w-screen-xl p-8 mx-auto md:flex-row">
-        {/* Profile Image & Basic Info*/ }
+        {/* Profile Image & Basic Info*/}
         <div className="flex flex-col items-center justify-center p-8 md:w-1/3">
           <div className="w-[150px] h-[150px] border-4 border-black rounded-full overflow-hidden mb-4">
             <img
@@ -283,7 +312,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
             </div>
           </div>
 
-         {/*Incharge Details*/ }
+         {/*Incharge Details */}
           <div className="p-6 text-gray-800 rounded-lg shadow-xl">
             <h3 className="text-2xl font-semibold mb-4 border-b-2 border-[#039ee3] pb-2">Incharge</h3>
             <div className="grid grid-cols-1 gap-4">
@@ -399,4 +428,3 @@ const Profile = () => {
     }      
     
 export default Profile;
-
