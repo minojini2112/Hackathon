@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import History from '../Participation/History'
-import { useParams } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import History from '../Participation/History';
+import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 
 const StaffParticipation = () => {

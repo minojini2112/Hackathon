@@ -78,24 +78,26 @@ const PostDetails = () => {
     </tr>
   </thead>
   <tbody>
-    {studentlist.map((student, index) => (
-      <tr
-        key={student.user_id}
-        className="bg-white
-        hover:bg-gray-200 hover:cursor-pointer" onClick={()=>navigate(`/staff/studentParticipation/${student.user_id}`)}
-      >
-        <td className="border border-gray-300 px-4 py-2">{student.name}</td>
-        <td className="border border-gray-300 px-4 py-2">{student.department}</td>
-        <td className="border border-gray-300 px-4 py-2">{student.year}</td>
-        <td className="border border-gray-300 px-4 py-2">{student.section}</td>
-        <td className="border border-gray-300 px-4 py-2">{student.register_number}</td>
-        <td className="border border-gray-300 px-4 py-2">{student.roll_no}</td>
-        <td className="border border-gray-300 px-4 py-2">{student.batch}</td>
-        <td className="border border-gray-300 px-4 py-2">{student.staff_incharge}</td>
-        <td className="border border-gray-300 px-4 py-2">{student.class_incharge}</td>
-        <td className="border border-gray-300 px-4 py-2">{student.placement_head}</td>
-      </tr>
-    ))}
+  {studentlist.map((student, index) => (
+  student && (
+    <tr
+      key={student.user_id}
+      className="bg-white hover:bg-gray-200 hover:cursor-pointer"
+      onClick={() => navigate(`/staff/studentParticipation/${student.user_id}`)}
+    >
+      <td className="border border-gray-300 px-4 py-2">{student.name}</td>
+      <td className="border border-gray-300 px-4 py-2">{student.department}</td>
+      <td className="border border-gray-300 px-4 py-2">{student.year}</td>
+      <td className="border border-gray-300 px-4 py-2">{student.section}</td>
+      <td className="border border-gray-300 px-4 py-2">{student.register_number}</td>
+      <td className="border border-gray-300 px-4 py-2">{student.roll_no}</td>
+      <td className="border border-gray-300 px-4 py-2">{student.batch}</td>
+      <td className="border border-gray-300 px-4 py-2">{student.staff_incharge}</td>
+      <td className="border border-gray-300 px-4 py-2">{student.class_incharge}</td>
+      <td className="border border-gray-300 px-4 py-2">{student.placement_head}</td>
+    </tr>
+  )
+))}
   </tbody>
 </table>
 
