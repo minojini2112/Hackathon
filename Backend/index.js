@@ -319,6 +319,7 @@ app.post("/studentPost", async(req,res)=>{
     const isStudentExist = await prisma.studentpost.findUnique({
       where:{
         student_id : parseInt(data.student_id),
+        post_id: parseInt(data.post_id)
       }
     });
     if (isStudentExist){
