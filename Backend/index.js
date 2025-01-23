@@ -316,14 +316,24 @@ app.post("/studentPost", async(req,res)=>{
         registeredNumber:parseInt(registeredNum.registeredNumber + 1),
       },
     });
-    const addStudentList = await prisma.studentpost.create({
-      data:{
-        post_id: parseInt(data.post_id),
+    const isStudentExist = await prisma.studentpost.findUnique({
+      where:{
         student_id : parseInt(data.student_id),
-      },
+      }
     });
-    return res.status(200).json({message:"All changes updated succeffully",data:{"registeredNumber":updateNum,"studentAdded": addStudentList}});
-   }catch(error){
+    if (isStudentExist){
+      return res.status(200).json({message:"registered"});
+    }else{
+      const addStudentList = await prisma.studentpost.create({
+        data:{
+          post_id: parseInt(data.post_id),
+          student_id : parseInt(data.student_id),
+        },
+      });
+      return res.status(200).json({message:"All changes updated succeffully",data:{"registeredNumber":updateNum,"studentAdded": addStudentList}});
+   
+    }
+      }catch(error){
     console.log("An error occured",error);
     return res.status(500).json({message:"An error occured",data:error});
    }
