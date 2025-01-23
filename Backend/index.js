@@ -316,12 +316,13 @@ app.post("/studentPost", async(req,res)=>{
         registeredNumber:parseInt(registeredNum.registeredNumber + 1),
       },
     });
-    const isStudentExist = await prisma.studentpost.findUnique({
-      where:{
-        student_id : parseInt(data.student_id),
-        post_id: parseInt(data.post_id)
-      }
+    const isStudentExist = await prisma.studentpost.findFirst({
+      where: {
+        student_id: parseInt(data.student_id),
+        post_id: parseInt(data.post_id),
+      },
     });
+        
     if (isStudentExist){
       return res.status(200).json({message:"registered"});
     }else{
