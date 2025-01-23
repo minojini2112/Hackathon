@@ -56,15 +56,14 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
         const data = await response.json();
         setProfileData(data.data);
         alert('Profile details added successfully!');
+        window.location.reload();
       } else {
         const errorMessage = await response.text();
         console.error(`Server Error: ${errorMessage}`);
       }
     } catch (error) {
       console.error('Fetch error:', error);
-    } finally {
-      window.location.reload();
-    }
+    } 
   };
   
   return (
