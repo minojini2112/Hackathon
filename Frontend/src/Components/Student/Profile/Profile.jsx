@@ -93,7 +93,7 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
       }
     } catch (error) {
       console.error('Fetch error:', error);
-    } 
+    }
   };
   
   return (
