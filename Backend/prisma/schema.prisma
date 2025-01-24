@@ -60,3 +60,9 @@ model Studentpost {
   post_id Int 
   student_id Int 
 }
+
+model Notifications {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  content String 
+}
