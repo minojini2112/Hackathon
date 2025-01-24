@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Ssearch = () => {
   const [filters, setFilters] = useState({
@@ -16,6 +17,7 @@ const Ssearch = () => {
   const [displayedData, setDisplayedData] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStudentData = async () => {
@@ -181,7 +183,7 @@ const Ssearch = () => {
               <tbody>
                 {displayedData.length > 0 ? (
                   displayedData.map((item, index) => (
-                    <tr key={index}>
+                    <tr key={index} onClick={()=>navigate(`/staff/studentParticipation/${item.user_id}`)} className="hover:bg-gray-200 hover:cursor-pointer">
                       <td className="p-2 border border-gray-300">{item.name}</td>
                       <td className="p-2 border border-gray-300">{item.register_number}</td>
                       <td className="p-2 border border-gray-300">{item.roll_no}</td>

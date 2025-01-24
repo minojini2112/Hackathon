@@ -43,7 +43,7 @@ const Router = createBrowserRouter([
                 element: <Notifications />,
             },
             {
-                path: "Participation", // This will match /dashboard/notifications
+                path: "participation", // This will match /dashboard/notifications
                 element: <Participation />,
             },
         ],

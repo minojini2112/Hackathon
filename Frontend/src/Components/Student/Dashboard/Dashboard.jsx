@@ -63,8 +63,14 @@ const Dashboard = () => {
 
       {/* Filtered Posts */}
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 ">
-        {filteredPosts.map((post) => (
-          <div
+        {filteredPosts.map((post) => {
+ const today = new Date(); //current date
+ const start = new Date(post.fromDate);
+ const timeDifference = start - today; //in milliseconds 
+ const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); //milli sec to days
+ console.log(days);
+       return(
+            <div
             key={post.id}
             className="p-4 transition-shadow transform bg-white rounded-lg shadow-lg cursor-pointer hover:shadow-xl hover:scale-105"
             onClick={() => handlePostClick(post.id)}
@@ -77,11 +83,15 @@ const Dashboard = () => {
             <h2 className="text-xl font-semibold text-gray-800">
               {post.description}
             </h2>
-            <p className="mt-2 text-sm text-gray-600">
-              {post.fromDate} - {post.toDate}
+            <p className="p-1 px-4 mt-2 text-sm text-white bg-blue-500 rounded-xl w-fit">
+            { 
+            days<0?"Expired": `${days} days left `
+            }
             </p>
           </div>
-        ))}
+          );
+        
+})}
       </div>
     </div>
   );
