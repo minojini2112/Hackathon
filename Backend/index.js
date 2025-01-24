@@ -21,7 +21,7 @@ const storage = new CloudinaryStorage({
 });
 
 const corsOptions = {
-  origin: "*", // Allow all origins
+  origin: "https://hackathon-tau-ashen.vercel.app/", 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
