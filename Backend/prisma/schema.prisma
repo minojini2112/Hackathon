@@ -60,3 +60,4 @@ model Studentpost {
   post_id Int 
   student_id Int 
 }
+

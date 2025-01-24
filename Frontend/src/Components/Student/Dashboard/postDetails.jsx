@@ -160,6 +160,7 @@ const PostDetails = () => {
               </thead>
               <tbody>
                 {studentlist.map((student, index) => (
+                  student &&
                   <tr
                     key={student.user_id}
                     className="bg-white hover:bg-gray-200 hover:cursor-pointer"
