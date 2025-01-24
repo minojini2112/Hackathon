@@ -44,7 +44,7 @@ const Ssearch = () => {
     "EEE",
     "Information Technology",
     "ECE",
-    "CSE",
+    "Computer Science",
     "AI & DS",
     "Cyber Security",
   ];
@@ -91,7 +91,7 @@ const Ssearch = () => {
         (!filters.name || item.name?.toLowerCase().includes(filters.name.toLowerCase())) &&
         (!filters.registerNumber || item.registerNumber?.includes(filters.registerNumber)) &&
         (!filters.rollNumber || item.rollNumber?.includes(filters.rollNumber)) &&
-        (filters.departments.length === 0 || filters.departments.includes(item.departments)) &&
+        (filters.departments.length === 0 || filters.departments.includes(item.department)) &&
         (filters.year.length === 0 || filters.year.includes(item.year)) &&
         (filters.section.length === 0 || filters.section.includes(item.section)) &&
         (filters.staffInCharge.length === 0 || filters.staffInCharge.includes(item.staffInCharge)) &&

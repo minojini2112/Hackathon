@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 const Notifications = () => {
   const [notifications, setNotifications] = useState([]);
   const role = localStorage.getItem("role");
-  
+
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
@@ -22,12 +22,11 @@ const Notifications = () => {
   }, []);
 
   const filteredNotifications =
-  role === "student"
-    ? notifications.filter((item) =>
-        item.content.toLowerCase().includes("post")
-      )
-    : notifications;
-
+    role === "student"
+      ? notifications.filter((item) =>
+          item.content.toLowerCase().includes("post")
+        )
+      : notifications;
 
   return (
     <div className="p-8 w-[50%]  mt-10 mx-auto bg-gradient-to-r from-[#2c3e50] to-[#34495e] rounded-xl shadow-lg transition-transform transform hover:scale-105">
@@ -43,7 +42,7 @@ const Notifications = () => {
             } hover:shadow-xl hover:border-2 border-gray-300`}
           >
             <div className="flex items-center justify-start space-x-4">
-            <i className="fa-solid fa-bell fa-2xl"></i>
+              <i className="fa-solid fa-bell fa-2xl"></i>
               <div className="w-full">
                 <p className="text-lg font-medium">{notif.content}</p>
                 <p className="mt-1 text-sm text-gray-500">{notif.createdAt}</p>
