@@ -16,22 +16,25 @@ const PostDetails = () => {
     post_id: id,
     student_id: user_id,
   };
-  const today = new Date(); //current date
-  const start = new Date(postdata.fromDate);
-  const timeDifference = start - today; //in milliseconds 
-  const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); //milli sec to days
-  console.log(days);
+  const calculate=(startdate)=>{
+    const today = new Date(); //current date
+    const start = new Date(startdate);
+    const timeDifference = start - today; //in milliseconds 
+    const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); //milli sec to days
+    console.log(days);
+  }
   
   useEffect(() => {
     const fetchpost = async () => {
       try {
         const response = await fetch(
-          `https://hackathon-y591.onrender.com/getindividualPost/${id}`
+          `https://hackathon-q8la.onrender.com/getindividualPost/${id}`
         );
         if (response.ok) {
           const data = await response.json();
           console.log(data);
           setpostdata(data.data);
+          calculate(data.data.fromDate);
         } else {
           throw new Error("Failed to fetch posts");
         }
@@ -42,7 +45,7 @@ const PostDetails = () => {
     const fetchRegistered = async()=>{
       try {
         const response = await fetch(
-          "https://hackathon-y591.onrender.com/studentPost/",
+          "https://hackathon-q8la.onrender.com/studentPost/",
           {
             method: "POST",
             headers: {
@@ -69,9 +72,10 @@ const PostDetails = () => {
   //const post = posts.find((p) => p.id === parseInt(id));
 
   const fetchList = async (post_id) => {
+    console.log("Button clicked");
     try {
       const response = await fetch(
-        `https://hackathon-y591.onrender.com/getStudentlist/${post_id}`
+        `https://hackathon-q8la.onrender.com/getStudentlist/${post_id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -88,7 +92,7 @@ const PostDetails = () => {
   const handleRegistration = async () => {
     try {
       const response = await fetch(
-        "https://hackathon-y591.onrender.com/studentPost/",
+        "https://hackathon-q8la.onrender.com/studentPost/",
         {
           method: "POST",
           headers: {
@@ -160,6 +164,7 @@ const PostDetails = () => {
               </thead>
               <tbody>
                 {studentlist.map((student, index) => (
+                  student &&
                   <tr
                     key={student.user_id}
                     className="bg-white hover:bg-gray-200 hover:cursor-pointer"

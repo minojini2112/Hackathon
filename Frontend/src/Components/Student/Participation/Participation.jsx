@@ -20,7 +20,7 @@ const Participation = () => {
     const fetchParticipation = async () => {
       try {
         const data = await fetch(
-          `https://hackathon-y591.onrender.com/getparticipation/${userId}`
+          `https://hackathon-q8la.onrender.com/getparticipation/${userId}`
         );
         const response = await data.json();
         setHistory(response.data);
@@ -63,7 +63,7 @@ const handleSubmit = async()=>{
     formData.append("image", image[i]); 
   }
   try{
-    const requestData = await fetch("https://hackathon-y591.onrender.com/participation",{
+    const requestData = await fetch("https://hackathon-q8la.onrender.com/participation",{
       method:"POST",
       body: formData
      })

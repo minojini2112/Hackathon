@@ -21,7 +21,7 @@ const storage = new CloudinaryStorage({
 });
 
 const corsOptions = {
-  origin: "*", // Allow all origins
+  origin: ["https://hackathon-tau-ashen.vercel.app", "http://localhost:5173"], 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -211,7 +211,14 @@ app.post("/participation", upload.fields([{ name: 'image', maxCount: 5 }, { name
           year: profileData.year,
         },
       });
-      return res.status(201).json({ message: "Participation details successfully stored", data: participation });
+
+      const notificationData = await prisma.notifications.create({
+        data: {
+          content: `Participation details added by ${profileData.name}`,
+        }
+      });
+
+      return res.status(201).json({ message: "Participation details successfully stored & notifications updated", data: participation });
     } else{
       return res.status(400).json({message:"Profile data not found"});
     }
@@ -265,7 +272,13 @@ const documentUrl = req.files['pdf'] && req.files['pdf'][0] ? req.files['pdf'][0
       throw err;
     });
 
-    return res.status(200).json({message:"Post created successfully",data:postData});
+    const notificationData = await prisma.notifications.create({
+      data: {
+        content: `New post added - ${data.description}`,
+      }
+    })
+
+    return res.status(200).json({message:"Post created successfully & notifications updated",data:postData});
   }catch(error){
     console.log("An error occured",error);
     return res.status(500).json({message:"An error occured",data:error});
@@ -361,6 +374,16 @@ app.get("/getStudentList/:post_id", async(req,res)=>{
       );
       return res.status(200).json({message:"List details fetched",data: finalList});
     }catch(error){
+    console.log("An error occured",error);
+    return res.status(500).json({message:"An error occured",data:error});
+   }
+});
+
+app.get("/getNotifications", async(req,res)=>{
+   try{
+    const notificationData = await prisma.notifications.findMany();
+    return res.status(200).json({message:"Notifications fetched", data : notificationData});
+  }catch(error){
     console.log("An error occured",error);
     return res.status(500).json({message:"An error occured",data:error});
    }
