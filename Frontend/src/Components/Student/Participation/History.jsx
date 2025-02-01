@@ -65,7 +65,7 @@ const History = (props) => {
               </p>
               <Slider
                 {...settings}
-                style={{ width: "500px", margin: "0 auto", marginBottom: "30px" }}
+                style={{ width: "90%", margin: "0 auto", marginBottom: "30px" }}
               >
                 {urlsArray.map((item) => {
                   return (
