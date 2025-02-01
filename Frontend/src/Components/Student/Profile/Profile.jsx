@@ -97,12 +97,11 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
   };
   
   return (
-    <div className="flex items-center ml-[250px] justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] sm:p-6 lg:ml-[250px]">
+    <div className="flex items-center justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] sm:p-6 md:ml-[250px]">
       <form onSubmit={handleSubmit} className="p-8 bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] rounded-lg shadow-md w-[1000px] sm:p-6 lg:p-8">
         <h2 className="mb-6 text-2xl font-bold text-gray-800 ">
           {!isEditing ? 'Edit Profile Details' : 'Enter Profile Details'}
         </h2>
-
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 sm:gap-8">
           <div>
             <div className="mb-4">

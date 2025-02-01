@@ -3,6 +3,7 @@ import {  Link , useNavigate } from "react-router-dom";
 const Login = () => {
     const navigate = useNavigate();
     const[profile,setProfile]=useState({});
+    const [loading , setLoading] = useState(false);
     const userId = localStorage.getItem("user_id");
     const role =localStorage.getItem("role");
   const [formData, setFormData] = useState({
@@ -36,6 +37,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await fetch("https://hackathon-q8la.onrender.com/login", {
         method: "POST",
@@ -68,6 +70,8 @@ const Login = () => {
     } catch (err) {
       console.error(err);
       setMessage("An error occurred.");
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -106,9 +110,9 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full flex justify-center items-center gap-2 px-4 py-2 font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
-            Login
+            Login {loading && <div className="loader"></div>} 
           </button>
         </form>
         <p className="text-center text-gray-950">Dont have an account? {" "}

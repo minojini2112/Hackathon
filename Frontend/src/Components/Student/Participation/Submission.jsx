@@ -1,6 +1,6 @@
 const Submission = (props) => {
     return (
-      <div className="flex flex-col justify-center items-center gap-4 border-black rounded-lg border-[3px] shadow-xl w-[80%] mx-auto p-4">
+      <div className="flex flex-col justify-center items-center gap-4 border-black rounded-lg border-[3px] shadow-xl md:w-[80%] w-[90%] mx-auto p-4">
         <div className="w-[100%] flex justify-start items-center gap-3 border-blue-950 border-2 p-2  rounded-lg">
           <i className="fa-solid fa-building-columns fa-xl"></i>
           <input
