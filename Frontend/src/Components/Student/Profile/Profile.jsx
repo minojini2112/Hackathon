@@ -97,9 +97,9 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
   };
   
   return (
-    <div className="flex items-center justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] sm:p-6 md:ml-[250px]">
-      <form onSubmit={handleSubmit} className="p-8 bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] rounded-lg shadow-md w-[1000px] sm:p-6 lg:p-8">
-        <h2 className="mb-6 text-2xl font-bold text-gray-800 ">
+    <div className="flex items-center justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] sm:p-6 md:ml-[250px] ">
+      <form onSubmit={handleSubmit} className="p-8 bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] rounded-lg shadow-md w-[90%] sm:p-6 lg:p-8">
+        <h2 className="mb-6 text-2xl font-bold text-center text-gray-800 sm:mt-8">
           {!isEditing ? 'Edit Profile Details' : 'Enter Profile Details'}
         </h2>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 sm:gap-8">
@@ -283,7 +283,7 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
   }
 
   return (
-    <div className="w-full h-screen bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] ml-[250px]">
+    <div className="w-full min-h-screen bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] lg:ml-[250px]">
       <div className="flex flex-col w-full max-w-screen-xl p-8 mx-auto md:flex-row">
         {/* Profile Image & Basic Info*/}
         <div className="flex flex-col items-center justify-center p-8 md:w-1/3">
@@ -300,10 +300,10 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
         </div>
 
         {/*Academic Details */}
-        <div className="flex flex-col justify-center p-8 md:w-2/3">
+        <div className="flex flex-col justify-center p-8 md:w-[60%] w-[90%]">
           <div className="p-6 mb-6 text-gray-800 rounded-lg shadow-xl">
             <h3 className="text-2xl font-semibold mb-4 border-b-2 border-[#039ee3] pb-2">Academic Details</h3>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <Detail label="Section" value={profileData.section} />
               <Detail label="Register Number" value={profileData.register_number} />
               <Detail label="Roll Number" value={profileData.roll_no} />
@@ -383,7 +383,7 @@ const Profile = () => {
               throw new Error('Error fetching profile data.');
             }
             const result = await response.json();
-      
+    
             if (result.data) {
               setProfileData(result.data); // Update state with existing profile data
               setIsEditing(false); // Render DisplayProfile component

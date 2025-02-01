@@ -45,9 +45,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="p-10 bg-gradient-to-br from-white via-[#eaf7fc] to-[#d1f0fa] min-h-screen md:ml-[250px] w-[90%]">
+    <div className="p-10 bg-gradient-to-br from-white via-[#eaf7fc] to-[#d1f0fa] min-h-screen md:ml-[250px] w-[100%]">
       {/* Search Bar */}
-      <div className="max-w-md mx-auto mb-8">
+      <div className="max-w-md mx-auto mt-10 mb-8">
         <input
           type="text"
           placeholder="Search by description or date"
