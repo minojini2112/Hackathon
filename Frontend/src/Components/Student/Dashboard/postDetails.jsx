@@ -9,6 +9,8 @@ const PostDetails = () => {
   const [checked, setChecked] = useState(false);
   const [show, setShow] = useState(false);
   const [registered , setRegistered]= useState(false);
+  const [days, setDays] = useState(null);
+
   const navigate = useNavigate();
   const user_id = localStorage.getItem("user_id");
   const role = localStorage.getItem("role");
@@ -22,6 +24,7 @@ const PostDetails = () => {
     const timeDifference = start - today; //in milliseconds 
     const days = Math.ceil(timeDifference / (1000 * 60 * 60 * 24)); //milli sec to days
     console.log(days);
+    setDays(days)
   }
   
   useEffect(() => {

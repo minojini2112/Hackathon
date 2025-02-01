@@ -97,13 +97,13 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
   };
   
   return (
-    <div className="flex items-center ml-[250px] justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9]">
-      <form onSubmit={handleSubmit} className="p-8 bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] rounded-lg shadow-md w-[1000px]">
-        <h2 className="mb-6 text-2xl font-bold text-gray-800">
+    <div className="flex items-center ml-[250px] justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] sm:p-6 lg:ml-[250px]">
+      <form onSubmit={handleSubmit} className="p-8 bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] rounded-lg shadow-md w-[1000px] sm:p-6 lg:p-8">
+        <h2 className="mb-6 text-2xl font-bold text-gray-800 ">
           {!isEditing ? 'Edit Profile Details' : 'Enter Profile Details'}
         </h2>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 sm:gap-8">
           <div>
             <div className="mb-4">
               <input
@@ -150,7 +150,7 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
                 <option value="CSE">Computer Science and Engineering</option>
                 <option value="AI & DS">Artificial Intelligence and Data Science</option>
                 <option value="Cyber Security">Cyber Security</option>
-              </select>+
+              </select>
             </div>
 
             <div className="mb-4">
@@ -252,10 +252,10 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
         </div>
         
 
-        <div className="flex justify-end mt-6">
+        <div className="flex justify-end mt-6 sm:justify-end sm:mt-8">
           <button
             type="submit"
-            className="px-6 py-2 text-white bg-[#039ee3] rounded-md shadow-md hover:bg-[#0288d1]"
+            className="px-6 py-2 text-white bg-[#039ee3] rounded-md shadow-md hover:bg-[#0288d1] "
           >
             Save Changes
           </button>
