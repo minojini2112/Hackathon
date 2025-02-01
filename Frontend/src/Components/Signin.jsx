@@ -1,6 +1,6 @@
 import  { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import {  useNavigate } from "react-router-dom";
+import {  Link,useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 const Signin = () => {
@@ -69,9 +69,9 @@ const Signin = () => {
   };
        
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[url('https://vcet.ac.in/vcetit/images/it_service/VCET.jpeg)] bg-no-repeat bg-red-900">
-      <ToastContainer />
-      <div className="w-full max-w-md p-8 space-y-6 bg-red-900 rounded-lg  ml-[750px]">
+    <div className="flex items-center justify-center h-screen bg-[url('https://vcet.ac.in/vcetit/images/it_service/VCET.jpeg')] bg-cover">
+      <ToastContainer/>
+      <div className="w-full max-w-md p-8 mx-auto space-y-6 bg-red-900 bg-rounded-lg">
         <h2 className="text-2xl font-bold text-center text-white">Sign Up</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -128,6 +128,11 @@ const Signin = () => {
             Sign Up
           </button>
         </form>
+        <p className="text-center text-gray-950">Already have an account? {" "}
+          <Link to="/" className="text-white hover:underline">
+             Login
+          </Link>
+        </p>
         {message && <p className="text-center text-red-500">{message}</p>}
       </div>
     </div>

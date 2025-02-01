@@ -46,10 +46,6 @@ const Dashboard = () => {
 
   return (
     <div className="p-10 bg-gradient-to-br from-white via-[#eaf7fc] to-[#d1f0fa] min-h-screen ml-[250px] w-[90%]">
-      <h1 className="bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9]">
-        Dashboard
-      </h1>
-
       {/* Search Bar */}
       <div className="max-w-md mx-auto mb-8">
         <input
