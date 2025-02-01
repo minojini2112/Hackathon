@@ -86,16 +86,16 @@ const handleSubmit = async()=>{
 
 
   return (
-    <div className="p-4 space-y-4 w-[80%] ml-[250px]">
-      <div className="text-[#0e2f44] font-bold text-2xl">
+    <div className="p-4 space-y-4 w-[100%] md:w-[80%] md:ml-[250px]">
+      <div className="text-[#0e2f44] font-bold text-2xl text-center">
         Participation Details
       </div>
-       <div>
+       <div className="flex justify-center items-center">
       <button
         onClick={() => {
           setAdd(true);
         }}
-        className="bg-[#039ee3] font-semibold p-2 px-3 rounded-lg hover:bg-[#90c2e1] text-black"
+        className="bg-[#039ee3] font-semibold p-2 px-3 rounded-lg hover:bg-[#90c2e1] text-black w-[fit]"
       >
         Add Participation +
       </button>

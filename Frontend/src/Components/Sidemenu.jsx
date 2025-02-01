@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const Sidemenu = () => {
   const [profile, setProfile] = useState({});
+  const [closemenu , setClosemenu]= useState(false);
   const userId = localStorage.getItem("user_id");
   const role = localStorage.getItem("role");
   
@@ -25,7 +26,14 @@ const Sidemenu = () => {
   }, [userId]);
 
   return (
-    <div className="bg-[#0e2f44] w-[220px] h-screen p-5 flex flex-col items-center space-y-7 pt-[40px] fixed">
+    <>
+    <div className="md:hidden p-4 fixed m-4" onClick={()=> setClosemenu(!closemenu)}>
+    <i className="fa-solid fa-bars fa-2xl"></i>      
+    </div>
+      <div className={`bg-[#0e2f44] w-[220px] h-screen p-5 ${!closemenu ? `hidden` : `flex flex-col` } md:flex md:flex-col md:items-center space-y-7 pt-[40px] fixed z-20`}>
+        <div className="md:hidden" onClick={()=> setClosemenu(!closemenu)} >
+        <i className="fa-solid fa-xmark fa-2xl"></i>
+        </div>
       <div className="w-[110px] h-[110px] border-[1px] border-[#039ee3] rounded-full overflow-hidden">
         <img
           src={
@@ -73,7 +81,9 @@ const Sidemenu = () => {
           <Link to="/">Logout</Link>
         </h2>
       </div>
-    </div>
+    </div> 
+    
+    </>
   );
 };
 

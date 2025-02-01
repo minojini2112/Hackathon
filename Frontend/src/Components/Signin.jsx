@@ -10,6 +10,7 @@ const Signin = () => {
     email: "",
     password: "",
   });
+  const [loading , setLoading] = useState(false);
 
   const [message, setMessage] = useState("");
 
@@ -36,7 +37,7 @@ const Signin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+   setLoading(true);
     if (!validateFields()) return;
 
     try {
@@ -65,6 +66,8 @@ const Signin = () => {
       console.error(err);
       setMessage("An error occurred.");
       toast.error("An error occurred.");
+    }finally{
+      setLoading(false);
     }
   };
        
@@ -123,9 +126,9 @@ const Signin = () => {
           </div>
           <button
             type="submit"
-            className="w-full px-4 py-2 font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="w-full flex justify-center items-center gap-2 px-4 py-2 font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
-            Sign Up
+            Sign Up  {loading && <div className="loader"></div>} 
           </button>
         </form>
         <p className="text-center text-gray-950">Already have an account? {" "}
