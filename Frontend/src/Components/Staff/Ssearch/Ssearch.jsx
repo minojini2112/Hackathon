@@ -44,7 +44,7 @@ const Ssearch = () => {
     "EEE",
     "Information Technology",
     "ECE",
-    "Computer Science",
+    "CSE",
     "AI & DS",
     "Cyber Security",
   ];
