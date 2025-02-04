@@ -59,9 +59,15 @@ const Spost = () => {
   };
 
   return (
+<<<<<<< HEAD
+    <div className="flex items-center ml-[250px] justify-center bg-[#cceef9]">
+      <form onSubmit={handleSubmit} className="p-8 bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] rounded-lg shadow-md md:w-[1000px]">
+        <h2 className="mb-8 text-2xl font-bold text-gray-800 sm:mt-3">Add New Post</h2>
+=======
     <div className="flex items-center md:ml-[250px] justify-center bg-[#cceef9]">
       <form onSubmit={handleSubmit} className="p-8 bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] rounded-lg shadow-md md:w-[1000px]">
         <h2 className="mt-8 mb-6 text-2xl font-bold text-gray-800 md:mt-2">Add New Post</h2>
+>>>>>>> a901c7f7cdec75c080c431b569c0eff42899aeb4
 
         {/* Description */}
         <div className="mb-4">
