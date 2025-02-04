@@ -45,6 +45,7 @@ const PostDetails = () => {
         console.error("Error fetching posts:", error);
       }
     };
+
     const fetchRegistered = async()=>{
       try {
         const response = await fetch(
@@ -70,7 +71,9 @@ const PostDetails = () => {
       }
     }
     fetchpost();
-    fetchRegistered();
+    if(role=="student"){
+      fetchRegistered();
+    }
   }, []);
   //const post = posts.find((p) => p.id === parseInt(id));
 
