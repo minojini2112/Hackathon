@@ -60,7 +60,7 @@ const StaffParticipation = () => {
           </div>
           
         </div>*/}
-        <div className="flex flex-col items-center gap-4 md:flex-row md:items-start bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] rounded-xl p-2 mt-3">
+        <div className="flex flex-col items-center gap-10 md:flex-row md:items-start bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] rounded-xl p-4 mt-3">
   {/* Profile Image */}
   <div className="w-24 h-24 overflow-hidden border-2 border-black rounded-full md:w-36 md:h-36 md:border-4">
     <img
