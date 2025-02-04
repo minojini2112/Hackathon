@@ -15,6 +15,11 @@ const History = (props) => {
     autoplay: true,
     autoplaySpeed: 3000,
     arrows: true,
+    vertical: true,         // Enable vertical scrolling
+    verticalSwiping: true,  // Allow vertical swipe on touch devices
+    swipeToSlide: true,     // Smooth swipe transition
+    touchMove: true,        // Allow touch gestures
+    adaptiveHeight: true    // Adjust height dynamically
   };
   return (
     <div className="flex flex-col gap-5 justify-center items-center md:w-[70%] w-[90%] mx-auto mt-5">
@@ -31,7 +36,7 @@ const History = (props) => {
     return (
       <div
         key={value.id}
-        className="p-4 rounded-lg bg-slate-300 space-y-4 w-[100%] text-start hover:shadow-xl hover:bg-slate-400 hover:cursor-pointer"
+        className="p-4 rounded-lg bg-slate-300 space-y-4 w-[90%] text-start hover:shadow-xl hover:bg-slate-400 hover:cursor-pointer"
       >
         <div className="flex w-[100%] justify-between items-center">
           <p className="text-xl font-medium">{value.college}</p>

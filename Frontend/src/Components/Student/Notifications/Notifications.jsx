@@ -29,7 +29,7 @@ const Notifications = () => {
       : notifications;
 
   return (
-    <div className="p-8 w-[50%]  mt-10 mx-auto bg-gradient-to-r from-[#2c3e50] to-[#34495e] rounded-xl shadow-lg transition-transform transform hover:scale-105">
+    <div className="p-8 md:w-[50%]  md:mt-10 mx-auto bg-gradient-to-r from-[#2c3e50] to-[#34495e] rounded-xl shadow-lg transition-transform transform hover:scale-105 md:ml-[400px] w-[70%] mt-16">
       <h2 className="mb-4 text-2xl font-semibold text-white">Notifications</h2>
       <ul className="space-y-4">
         {filteredNotifications.map((notif) => (
@@ -44,7 +44,7 @@ const Notifications = () => {
             <div className="flex items-center justify-start space-x-4">
               <i className="fa-solid fa-bell fa-2xl"></i>
               <div className="w-full">
-                <p className="text-lg font-medium">{notif.content}</p>
+                <p className="text-sm font-medium md:text-lg">{notif.content}</p>
                 <p className="mt-1 text-sm text-gray-500">{notif.createdAt}</p>
               </div>
             </div>

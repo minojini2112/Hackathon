@@ -147,7 +147,7 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
                 <option value="Information Technology">Information Technology</option>
                 <option value="ECE">Electronics and Communication Engineering</option>
                 <option value="CSE">Computer Science and Engineering</option>
-                <option value="AI & DS">Artificial Intelligence and Data Science</option>
+                <option value="AI & DS">Artificial Intelligence </option>
                 <option value="Cyber Security">Cyber Security</option>
               </select>
             </div>

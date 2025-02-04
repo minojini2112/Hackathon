@@ -41,11 +41,11 @@ const Ssearch = () => {
   const departments = [
     "Mechanical Engineering",
     "Civil Engineering",
-    "EEE",
+    "Electrical and Electronics Engineering",
     "Information Technology",
-    "ECE",
+    "Electronics and Communication Engineering",
     "Computer Science",
-    "AI & DS",
+    "Artificial Intelligence",
     "Cyber Security",
   ];
   const years = ["I Year", "II Year", "III Year", "IV Year"];
@@ -102,13 +102,13 @@ const Ssearch = () => {
   };
 
   return (
-    <div className="w-full p-4 bg-gray-100 ml-[250px]">
+    <div className="w-full p-4 bg-gray-100 md:ml-[250px]">
       {loading ? (
         <p>Loading...</p>
       ) : (
         <>
           {/* Filters */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mt-14 md:mt-2 md:ml-1">
             {["name", "registerNumber", "rollNumber"].map((field) => (
               <div key={field} className="w-full sm:w-1/5">
                 <input
@@ -158,9 +158,10 @@ const Ssearch = () => {
             </button>
           </div>
 
-          {/* Display Data */}
+          {/* Display Data - desktop*/}
           <div className="mt-8">
             <h3 className="mb-4 text-xl font-bold">Filtered Data</h3>
+            <div className="hidden overflow-x-auto md:block">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr>
@@ -203,6 +204,29 @@ const Ssearch = () => {
                 )}
               </tbody>
             </table>
+            </div>
+            
+            {/* Display Data - mobile */}
+            <div className="space-y-4 md:hidden">
+    {displayedData.length > 0 ? (
+      displayedData.map((item, index) => (
+        <div key={index} onClick={() => navigate(`/staff/studentParticipation/${item.user_id}`)} className="p-4 bg-white border border-gray-300 rounded-lg shadow-md">
+          <p><strong>Name:</strong> {item.name}</p>
+          <p><strong>Register Number:</strong> {item.register_number}</p>
+          <p><strong>Roll Number:</strong> {item.roll_no}</p>
+          <p><strong>Department:</strong> {item.department}</p>
+          <p><strong>Year:</strong> {item.year}</p>
+          <p><strong>Section:</strong> {item.section}</p>
+          <p><strong>Staff In-Charge:</strong> {item.staff_incharge}</p>
+          <p><strong>Placement In-Charge:</strong> {item.placement_head}</p>
+        </div>
+      ))
+    ) : (
+      <p className="text-center">No data found.</p>
+    )}
+  </div>
+            
+            
           </div>
         </>
       )}
