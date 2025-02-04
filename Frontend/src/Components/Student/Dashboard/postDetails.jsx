@@ -140,78 +140,73 @@ const PostDetails = () => {
                 onClick={() => setShow(false)}
               ></i>
             </div>
+            <div className="w-full mx-auto my-auto">
+  {/* Table for larger screens */}
+  <div className="hidden md:block">
+    <table className="w-full text-center border border-collapse border-gray-300 rounded-lg shadow-lg">
+      <thead className="bg-gray-200">
+        <tr>
+          <th className="px-4 py-2 border border-gray-300">Name</th>
+          <th className="px-4 py-2 border border-gray-300">Department</th>
+          <th className="px-4 py-2 border border-gray-300">Year</th>
+          <th className="px-4 py-2 border border-gray-300">Section</th>
+          <th className="px-4 py-2 border border-gray-300">Register Number</th>
+          <th className="px-4 py-2 border border-gray-300">Roll Number</th>
+          <th className="px-4 py-2 border border-gray-300">Batch</th>
+          <th className="px-4 py-2 border border-gray-300">Placement Incharge</th>
+          <th className="px-4 py-2 border border-gray-300">Class Incharge</th>
+          <th className="px-4 py-2 border border-gray-300">Placement Head</th>
+        </tr>
+      </thead>
+      <tbody>
+        {studentlist.map((student, index) => (
+          student && (
+            <tr
+              key={student.user_id}
+              className="bg-white hover:bg-gray-200 hover:cursor-pointer"
+              onClick={() => navigate(`/staff/studentParticipation/${student.user_id}`)}
+            >
+              <td className="px-4 py-2 border border-gray-300">{student.name}</td>
+              <td className="px-4 py-2 border border-gray-300">{student.department}</td>
+              <td className="px-4 py-2 border border-gray-300">{student.year}</td>
+              <td className="px-4 py-2 border border-gray-300">{student.section}</td>
+              <td className="px-4 py-2 border border-gray-300">{student.register_number}</td>
+              <td className="px-4 py-2 border border-gray-300">{student.roll_no}</td>
+              <td className="px-4 py-2 border border-gray-300">{student.batch}</td>
+              <td className="px-4 py-2 border border-gray-300">{student.staff_incharge}</td>
+              <td className="px-4 py-2 border border-gray-300">{student.class_incharge}</td>
+              <td className="px-4 py-2 border border-gray-300">{student.placement_head}</td>
+            </tr>
+          )
+        ))}
+      </tbody>
+    </table>
+  </div>
 
-            <table className="w-full mx-auto my-auto text-center border border-collapse border-gray-300 rounded-lg shadow-lg">
-              <thead className="bg-gray-200">
-                <tr>
-                  <th className="px-4 py-2 border border-gray-300 ">Name</th>
-                  <th className="px-4 py-2 border border-gray-300 ">
-                    Department
-                  </th>
-                  <th className="px-4 py-2 border border-gray-300 ">Year</th>
-                  <th className="px-4 py-2 border border-gray-300 ">Section</th>
-                  <th className="px-4 py-2 border border-gray-300 ">
-                    Register Number
-                  </th>
-                  <th className="px-4 py-2 border border-gray-300 ">
-                    Roll Number
-                  </th>
-                  <th className="px-4 py-2 border border-gray-300 ">Batch</th>
-                  <th className="px-4 py-2 border border-gray-300 ">
-                    Placement Incharge
-                  </th>
-                  <th className="px-4 py-2 border border-gray-300 ">
-                    Class Incharge
-                  </th>
-                  <th className="px-4 py-2 border border-gray-300 ">
-                    Placement Head
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {studentlist.map((student, index) => (
-                  student &&
-                  <tr
-                    key={student.user_id}
-                    className="bg-white hover:bg-gray-200 hover:cursor-pointer"
-                    onClick={() =>
-                      navigate(`/staff/studentParticipation/${student.user_id}`)
-                    }
-                  >
-                    <td className="px-4 py-2 border border-gray-300">
-                      {student.name}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300">
-                      {student.department}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300">
-                      {student.year}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300">
-                      {student.section}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300">
-                      {student.register_number}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300">
-                      {student.roll_no}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300">
-                      {student.batch}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300">
-                      {student.staff_incharge}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300">
-                      {student.class_incharge}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300">
-                      {student.placement_head}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+  {/* Card format for mobile screens */}
+  <div className="block space-y-4 md:hidden">
+    {studentlist.map((student, index) => (
+      student && (
+        <div
+          key={index}
+          onClick={() => navigate(`/staff/studentParticipation/${student.user_id}`)}
+          className="p-4 bg-white border border-gray-300 rounded-lg shadow-md"
+        >
+          <p><strong>Name:</strong> {student.name}</p>
+          <p><strong>Register Number:</strong> {student.register_number}</p>
+          <p><strong>Roll Number:</strong> {student.roll_no}</p>
+          <p><strong>Department:</strong> {student.department}</p>
+          <p><strong>Year:</strong> {student.year}</p>
+          <p><strong>Section:</strong> {student.section}</p>
+          <p><strong>Staff In-Charge:</strong> {student.staff_incharge}</p>
+          <p><strong>Placement In-Charge:</strong> {student.placement_head}</p>
+        </div>
+      )
+    ))}
+  </div>
+</div>
+
+            
           </div>
         </div>
       )}
