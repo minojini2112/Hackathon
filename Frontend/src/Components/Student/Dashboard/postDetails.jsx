@@ -45,10 +45,11 @@ const PostDetails = () => {
         console.error("Error fetching posts:", error);
       }
     };
+
     const fetchRegistered = async()=>{
       try {
         const response = await fetch(
-          "https://hackathon-q8la.onrender.com/studentPost/",
+          "https://hackathon-q8la.onrender.com/getStudentRegister",
           {
             method: "POST",
             headers: {
@@ -70,7 +71,9 @@ const PostDetails = () => {
       }
     }
     fetchpost();
-    fetchRegistered();
+    if(role=="student"){
+      fetchRegistered();
+    }
   }, []);
   //const post = posts.find((p) => p.id === parseInt(id));
 
@@ -124,7 +127,7 @@ const PostDetails = () => {
   }
 
   return (
-    <div className="flex min-h-screen p-10 bg-gray-100/50 w-[100%]">
+    <div className="flex min-h-screen p-10 bg-gray-100/50 w-[100%] flex-col md:flex-row">
       {show && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/30">
           <div className="flex flex-col justify-center items-center p-5 bg-slate-200/70 shadow-xl absolute backdrop-blur-2xl w-[90%] mx-auto my-auto rounded-xl">
@@ -217,8 +220,8 @@ const PostDetails = () => {
         alt="Post"
         className="w-1/2 h-auto rounded-lg shadow-lg"
       />
-      <div className="ml-10">
-        <h1 className="mb-6 text-3xl font-bold">{postdata.description}</h1>
+      <div className="mt-4 md:ml-10">
+        <h1 className="mb-6 text-xl font-bold md:text-3xl">{postdata.description}</h1>
         <p className="mb-4">
           <strong>From:</strong> {postdata.fromDate}
         </p>

@@ -354,6 +354,26 @@ app.post("/studentPost", async(req,res)=>{
    }
 });
 
+app.post("/getStudentRegister", async(req,res)=>{
+   const data = req.body;
+   try{
+    const isStudentExist = await prisma.studentpost.findFirst({
+      where: {
+        student_id: parseInt(data.student_id),
+        post_id: parseInt(data.post_id),
+      },
+    });
+    if(isStudentExist){
+      return res.status(200).json({message:"registered"});
+    } else{
+      return res.status(200).json({message:"not registered"});
+    }
+}catch(error){
+  console.log("An error occured",error);
+  return res.status(500).json({message:"An error occured",data:error});
+ }}
+);
+
 app.get("/getStudentList/:post_id", async(req,res)=>{
     const {post_id}= req.params;
     try{

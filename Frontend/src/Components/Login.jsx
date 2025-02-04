@@ -61,8 +61,7 @@ const Login = () => {
           }else{
             navigate("/dashboard");
           }
-          
-        }
+          }
       } else {
         const error = await response.json();
         setMessage(error.message || "Login failed.");
