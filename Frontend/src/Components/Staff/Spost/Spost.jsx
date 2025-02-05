@@ -22,9 +22,7 @@ const Spost = () => {
     }
   };
   
-  const handleSubmit = async (e) => {
-
-    e.preventDefault();
+  const handleSubmit = async () => {
     const input = new FormData();
   
     for (const key in formData) {
@@ -36,9 +34,12 @@ const Spost = () => {
     }  
   
     try {
-      const response = await fetch(`https://hackathon-q8la.onrender.com/addPost`, {
+      const response = await fetch(`https://hackathon-8k3r.onrender.com/addPost`, {
         method: 'POST',
-        body: input,
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+        body: JSON.stringify(input),
       });
   
       if (response.ok) {
@@ -53,14 +54,12 @@ const Spost = () => {
       }
     } catch (error) {
       console.error('Fetch error:', error); 
-    }finally{
-      window.location.reload();
     }
   };
 
   return (
     <div className="flex items-center md:ml-[250px] justify-center bg-[#cceef9]">
-      <form onSubmit={handleSubmit} className="p-8 bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] rounded-lg shadow-md md:w-[1000px]">
+      <div className="p-8 bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] rounded-lg shadow-md md:w-[1000px]">
         <h2 className="mt-8 mb-6 text-2xl font-bold text-gray-800 md:mt-2">Add New Post</h2>
 
         {/* Description */}
@@ -156,14 +155,14 @@ const Spost = () => {
 
         {/* Submit Button */}
         <div className="flex justify-end mt-6">
-          <button
+          <button onClick={()=> handleSubmit()}
             type="submit"
             className="px-6 py-2 text-white bg-[#039ee3] rounded-md shadow-md hover:bg-[#0288d1]"
           >
             Submit Post
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

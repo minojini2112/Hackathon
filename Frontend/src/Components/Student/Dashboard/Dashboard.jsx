@@ -11,7 +11,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch("https://hackathon-q8la.onrender.com/getallPost");
+        const response = await fetch("https://hackathon-8k3r.onrender.com/getallPost");
         if (response.ok) {
           const data = await response.json();
         setPosts(data.data);
