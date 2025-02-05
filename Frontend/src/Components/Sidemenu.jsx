@@ -12,7 +12,7 @@ const Sidemenu = () => {
     const fetchProfile = async () => {
       try {
         const response = await fetch(
-          `https://hackathon-q8la.onrender.com/getprofile/${userId}`
+          `https://hackathon-8k3r.onrender.com/getprofile/${userId}`
         );
         if (response.ok) {
           const result = await response.json();
@@ -27,7 +27,7 @@ const Sidemenu = () => {
 
   return (
     <>
-    <div className="md:hidden p-4 fixed m-4" onClick={()=> setClosemenu(!closemenu)}>
+    <div className="fixed p-4 m-4 md:hidden" onClick={()=> setClosemenu(!closemenu)}>
     <i className="fa-solid fa-bars fa-2xl"></i>      
     </div>
       <div className={`bg-[#0e2f44] w-[220px] h-screen p-5 ${!closemenu ? `hidden` : `flex flex-col` } md:flex md:flex-col md:items-center space-y-7 pt-[40px] fixed z-20`}>

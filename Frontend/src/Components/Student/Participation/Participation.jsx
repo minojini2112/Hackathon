@@ -20,7 +20,7 @@ const Participation = () => {
     const fetchParticipation = async () => {
       try {
         const data = await fetch(
-          `https://hackathon-q8la.onrender.com/getparticipation/${userId}`
+          `https://hackathon-8k3r.onrender.com/getparticipation/${userId}`
         );
         const response = await data.json();
         setHistory(response.data);
@@ -63,7 +63,7 @@ const handleSubmit = async()=>{
     formData.append("image", image[i]); 
   }
   try{
-    const requestData = await fetch("https://hackathon-q8la.onrender.com/participation",{
+    const requestData = await fetch("https://hackathon-8k3r.onrender.com/participation",{
       method:"POST",
       body: formData
      })
@@ -90,7 +90,7 @@ const handleSubmit = async()=>{
       <div className="text-[#0e2f44] font-bold text-2xl text-center">
         Participation Details
       </div>
-       <div className="flex justify-center items-center">
+       <div className="flex items-center justify-center">
       <button
         onClick={() => {
           setAdd(true);

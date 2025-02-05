@@ -41,7 +41,7 @@ const Signin = () => {
     if (!validateFields()) return;
 
     try {
-      const response = await fetch("https://hackathon-q8la.onrender.com/signin", {
+      const response = await fetch("https://hackathon-8k3r.onrender.com/signin", {
         method: "POST",
         headers: {    
           "Content-Type": "application/json",
@@ -126,7 +126,7 @@ const Signin = () => {
           </div>
           <button
             type="submit"
-            className="w-full flex justify-center items-center gap-2 px-4 py-2 font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="flex items-center justify-center w-full gap-2 px-4 py-2 font-medium text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >
             Sign Up  {loading && <div className="loader"></div>} 
           </button>

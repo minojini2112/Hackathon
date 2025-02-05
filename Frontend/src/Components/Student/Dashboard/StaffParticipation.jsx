@@ -11,7 +11,7 @@ const StaffParticipation = () => {
     useEffect(()=>{
         const fetchParticipation= async()=>{
           try{
-            const response = await fetch(`https://hackathon-q8la.onrender.com/getParticipation/${student_id}`);
+            const response = await fetch(`https://hackathon-8k3r.onrender.com/getParticipation/${student_id}`);
             const data = await response.json();
             if (response.ok){
                 setHistory(data.data);
@@ -24,7 +24,7 @@ const StaffParticipation = () => {
         }
         const fetchProfile=async()=>{
           try{
-            const response = await fetch(`https://hackathon-q8la.onrender.com/getProfile/${student_id}`);
+            const response = await fetch(`https://hackathon-8k3r.onrender.com/getProfile/${student_id}`);
             const data = await response.json();
             if (response.ok){
                 setProfile(data.data);

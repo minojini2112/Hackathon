@@ -77,7 +77,7 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
     }*/
   
     try {
-      const response = await fetch(`https://hackathon-q8la.onrender.com/profile/${userId}`, {
+      const response = await fetch(`https://hackathon-8k3r.onrender.com/profile/${userId}`, {
         method: 'POST',
         body: input,
       });
@@ -378,7 +378,7 @@ const Profile = () => {
       
         const fetchProfile = async () => {
           try {
-            const response = await fetch(`https://hackathon-q8la.onrender.com/getprofile/${userId}`);
+            const response = await fetch(`https://hackathon-8k3r.onrender.com/getprofile/${userId}`);
             if (!response.ok) {
               throw new Error('Error fetching profile data.');
             }

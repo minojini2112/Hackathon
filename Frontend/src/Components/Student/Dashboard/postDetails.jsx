@@ -31,7 +31,7 @@ const PostDetails = () => {
     const fetchpost = async () => {
       try {
         const response = await fetch(
-          `https://hackathon-q8la.onrender.com/getindividualPost/${id}`
+          `https://hackathon-8k3r.onrender.com/getindividualPost/${id}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -81,7 +81,7 @@ const PostDetails = () => {
     console.log("Button clicked");
     try {
       const response = await fetch(
-        `https://hackathon-q8la.onrender.com/getStudentlist/${post_id}`
+        `https://hackathon-8k3r.onrender.com/getStudentlist/${post_id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -98,7 +98,7 @@ const PostDetails = () => {
   const handleRegistration = async () => {
     try {
       const response = await fetch(
-        "https://hackathon-q8la.onrender.com/studentPost/",
+        "https://hackathon-8k3r.onrender.com/studentPost/",
         {
           method: "POST",
           headers: {

@@ -8,7 +8,7 @@ const Notifications = () => {
     const fetchNotifications = async () => {
       try {
         const data = await fetch(
-          `https://hackathon-q8la.onrender.com/getNotifications`
+          `https://hackathon-8k3r.onrender.com/getNotifications`
         );
         const response = await data.json();
         setNotifications(response.data);
