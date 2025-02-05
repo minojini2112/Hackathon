@@ -38,7 +38,10 @@ const Spost = () => {
     try {
       const response = await fetch(`https://hackathon-q8la.onrender.com/addPost`, {
         method: 'POST',
-        body: input,
+        headers: {
+          'Content-Type': 'application/json', 
+        },
+        body: JSON.stringify(input),
       });
   
       if (response.ok) {
