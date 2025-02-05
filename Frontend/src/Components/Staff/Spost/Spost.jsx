@@ -54,8 +54,6 @@ const Spost = () => {
       }
     } catch (error) {
       console.error('Fetch error:', error); 
-    }finally{
-      window.location.reload();
     }
   };
 
