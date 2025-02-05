@@ -20,8 +20,6 @@ const storage = new CloudinaryStorage({
   },
 });
 
-const cors = require('cors');
-
 const corsOptions = {
   origin: ['https://hackathon-1-j9qr.onrender.com', 'http://localhost:5173'],  // Add your frontend origin
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
