@@ -43,15 +43,9 @@ const Ssearch = () => {
     "Civil Engineering",
     "Electrical and Electronics Engineering",
     "Information Technology",
-<<<<<<< HEAD
-    "ECE",
-    "CSE",
-    "AI & DS",
-=======
     "Electronics and Communication Engineering",
     "Computer Science",
     "Artificial Intelligence",
->>>>>>> a901c7f7cdec75c080c431b569c0eff42899aeb4
     "Cyber Security",
   ];
   const years = ["I Year", "II Year", "III Year", "IV Year"];
