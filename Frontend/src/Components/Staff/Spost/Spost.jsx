@@ -22,9 +22,7 @@ const Spost = () => {
     }
   };
   
-  const handleSubmit = async (e) => {
-
-    e.preventDefault();
+  const handleSubmit = async () => {
     const input = new FormData();
   
     for (const key in formData) {
