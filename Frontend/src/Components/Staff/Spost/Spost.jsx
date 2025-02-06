@@ -34,14 +34,13 @@ const Spost = () => {
     }  
   
     try {
-      const response = await fetch(`https://hackathon-8k3r.onrender.com/addPost`, {
-        method: 'POST',
-        mode: 'no-cors',
+      const response = await fetch("https://hackathon-8k3r.onrender.com/addPost", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json', 
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(input),
-      });
+      });      
   
       if (response.ok) {
         const data = await response.json();
