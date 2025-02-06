@@ -19,13 +19,36 @@ const storage = new CloudinaryStorage({
     resource_type: 'raw',
   },
 });
+const allowedOrigins = [
+  'https://hackathon-tau-ashen.vercel.app',
+  'http://localhost:5173',
+  'https://hackathon-1-j9qr.onrender.com',
+];
 
+// Dynamic CORS function to allow multiple origins
 const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.error(`❌ Blocked by CORS: ${origin}`);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+  credentials: true,
+  optionsSuccessStatus: 200, // Fixes preflight issues in some browsers
+};
+
+
+
+/*const corsOptions = {
   origin: ['https://hackathon-1-j9qr.onrender.com', 'http://localhost:5173'],  
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
-};
+};*/
 
 const app = express()
 const prisma = new PrismaClient();
