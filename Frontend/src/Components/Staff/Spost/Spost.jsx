@@ -66,7 +66,7 @@ const Spost = () => {
             name="description"
             value={formData.description}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
+            className="px-4 py-2 w-full rounded-md border"
             placeholder="Enter description"
             required
           />
@@ -81,7 +81,7 @@ const Spost = () => {
               name="image"
               multiple
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md"
+              className="px-4 py-2 w-full rounded-md border"
             />
           </div>
           <div>
@@ -90,7 +90,7 @@ const Spost = () => {
               type="file"
               name="pdf"
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md"
+              className="px-4 py-2 w-full rounded-md border"
             />
           </div>
         </div>
@@ -103,7 +103,7 @@ const Spost = () => {
             name="link"
             value={formData.link}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
+            className="px-4 py-2 w-full rounded-md border"
             placeholder="Enter URL"
           />
         </div>
@@ -117,7 +117,7 @@ const Spost = () => {
               name="fromDate"
               value={formData.fromDate}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md"
+              className="px-4 py-2 w-full rounded-md border"
               required
             />
           </div>
@@ -128,7 +128,7 @@ const Spost = () => {
               name="toDate"
               value={formData.toDate}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-md"
+              className="px-4 py-2 w-full rounded-md border"
               required
             />
           </div>
@@ -142,7 +142,7 @@ const Spost = () => {
             name="registrationLimit"
             value={formData.registrationLimit}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md"
+            className="px-4 py-2 w-full rounded-md border"
             placeholder="Enter registration limit"
             required
           />

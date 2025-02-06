@@ -20,9 +20,9 @@ const storage = new CloudinaryStorage({
   },
 });
 const allowedOrigins = [
-  "https://hackathon-tau-ashen.vercel.app",
-  "http://localhost:5173",
-  "https://hackathon-1-j9qr.onrender.com",
+  'https://hackathon-tau-ashen.vercel.app',
+  'http://localhost:5173',
+  'https://hackathon-1-j9qr.onrender.com',
 ];
 
 // Dynamic CORS function to allow multiple origins
@@ -40,6 +40,7 @@ const corsOptions = {
   credentials: true,
   optionsSuccessStatus: 200, // Fixes preflight issues in some browsers
 };
+
 
 
 /*const corsOptions = {
@@ -431,6 +432,6 @@ app.get("/getNotifications", async(req,res)=>{
    }
 });
 
-app.listen(3005, () => {
-  console.log("Server is running on port 3005");
+app.listen(3027, () => {
+  console.log("Server is running on port 3027");
 });
