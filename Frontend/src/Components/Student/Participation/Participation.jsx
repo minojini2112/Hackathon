@@ -53,20 +53,20 @@ const handleImageUpload=(e)=>{ //to upload multiple images
 const handleSubmit = async()=>{
   const formData = new FormData();
 
-  for (const key in data) {  //upload text data into formdata
+  for (const key in data) {  
     formData.append(key, data[key]);
   }  ; 
   if (pdf) {    //upload pdf into formdata
     formData.append("pdf", pdf);
   };
-  for (let i = 0; i < image.length; i++) {   //upload multiple images into formdata
+  for (let i = 0; i < image.length; i++) {   
     formData.append("image", image[i]); 
   }
   try{
     const requestData = await fetch("https://hackathon-8k3r.onrender.com/participation",{
       method:"POST",
-      body: formData
-     })
+      body: formData,
+    })
     const resData = await requestData.json();
     if (requestData.ok){
       console.log(resData);

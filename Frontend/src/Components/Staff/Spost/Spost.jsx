@@ -34,12 +34,9 @@ const Spost = () => {
     }  
   
     try {
-      const response = await fetch("https://hackathon-8k3r.onrender.com/addPost", {
+      const response = await fetch("http://localhost:3005/addPost", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(input),
+        body: input ,
       });      
   
       if (response.ok) {
@@ -155,7 +152,7 @@ const Spost = () => {
 
         {/* Submit Button */}
         <div className="flex justify-end mt-6">
-          <button onClick={()=> handleSubmit()}
+          <button onClick={(e)=> {e.preventDefault();handleSubmit();}}
             type="submit"
             className="px-6 py-2 text-white bg-[#039ee3] rounded-md shadow-md hover:bg-[#0288d1]"
           >
