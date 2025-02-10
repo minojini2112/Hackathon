@@ -63,7 +63,7 @@ const handleSubmit = async()=>{
     formData.append("image", image[i]); 
   }
   try{
-    const requestData = await fetch("http://localhost:3027/participation",{
+    const requestData = await fetch(" https://hackathon-8k3r.onrender.com/participation",{
       method:"POST",
       body: formData,
     })

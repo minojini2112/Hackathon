@@ -75,8 +75,8 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-[url('https://vcet.ac.in/vcetit/images/it_service/VCET.jpeg')] bg-cover">
-      <div className="w-full max-w-md p-8 mx-auto space-y-6 bg-red-900 bg-rounded-lg">
+    <div className="flex items-center justify-center h-screen bg-[url('https://ik.imagekit.io/mino2112/clg.jpg?updatedAt=1739162849022')] bg-cover">
+      <div className="w-full max-w-md p-8 mx-auto space-y-6 bg-gray-900 rounded-lg backdrop-filter backdrop-blur-lg bg-opacity-20">
         <h2 className="text-2xl font-bold text-center text-white">Login</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
