@@ -3,6 +3,22 @@ const { PrismaClient } = require("@prisma/client")
 const bcrypt = require("bcrypt")
 const multer = require('multer');
 const cors = require("cors");
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'hackathons',
+    resource_type: 'raw',
+  },
+});
 
 const allowedOrigins = [
   'https://hackathon-tau-ashen.vercel.app',
@@ -27,6 +43,7 @@ const corsOptions = {
 
 const app = express()
 const prisma = new PrismaClient();
+const upload = multer({ storage });
 
 app.use(cors(corsOptions)); 
 app.use(express.json());
