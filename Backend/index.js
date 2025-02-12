@@ -31,7 +31,6 @@ const prisma = new PrismaClient();
 app.use(cors(corsOptions)); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(upload.none()); 
 
 app.post("/signin", async (req, res) => {
   console.log("Hello")
