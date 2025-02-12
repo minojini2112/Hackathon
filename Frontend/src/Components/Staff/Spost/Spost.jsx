@@ -75,9 +75,9 @@ const handleSubmit = async () => {
   console.log("Final payload (FormData):", input);
 
   try {
-    const response = await fetch("http://localhost:3005/addPost", {
+    const response = await fetch("https://hackathon-8k3r.onrender.com/addPost", {
       method: "POST",
-      body: input,  // ✅ Corrected this
+      body: input,  
     });
 
     if (response.ok) {

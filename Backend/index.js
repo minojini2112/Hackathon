@@ -57,7 +57,7 @@ const upload = multer({ storage });
 app.use(cors(corsOptions)); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(upload.none()); // Parses FormData (excluding files)
 
 app.post("/signin", async (req, res) => {
   console.log("Hello")
@@ -270,7 +270,8 @@ app.get("/getparticipation/:user_id",async (req,res)=>{
 });
 
 app.post("/addPost",async (req,res)=>{
-  console.log(req.body)
+  
+  console.log("Received Body:", req.body);
   const data = req.body;
   try{
     const postData = await prisma.post.create({
