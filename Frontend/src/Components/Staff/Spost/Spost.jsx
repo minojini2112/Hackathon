@@ -15,24 +15,25 @@ const Spost = () => {
     pdf:""
   });
 
-  const uploadToCloudinary = async (file, type) => {
+  const uploadToCloudinary = async (file) => {
     const cloudName = "ds65kgmhq";
-    const uploadPreset = "hackathon"; 
+    const uploadPreset = "hackathon";
 
     const formDataUpload = new FormData();
     formDataUpload.append("file", file);
     formDataUpload.append("upload_preset", uploadPreset);
-    formDataUpload.append("resource_type", type === "raw"); 
+
+    const resourceType = "raw"; 
 
     try {
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {
             method: "POST",
             body: formDataUpload,
         });
 
         const data = await response.json();
         if (data.secure_url) {
-            return data.secure_url; 
+            return data.secure_url;
         }
     } catch (error) {
         console.error("Cloudinary Upload Error:", error);
@@ -66,7 +67,6 @@ const handleSubmit = async () => {
 
   console.log("Updated formData before sending:", updatedFormData);
 
-  // ✅ Create a FormData instance and append updatedFormData values
   const input = new FormData();
   for (const key in updatedFormData) {
       input.append(key, updatedFormData[key]);

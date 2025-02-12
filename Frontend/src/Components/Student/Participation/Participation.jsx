@@ -42,47 +42,87 @@ const Participation = () => {
     });
 }
 
-const handlePdfUpload = (e)=>{ //to upload a single pdf
-  setPdf(e.target.files[0]);
-}
+const uploadToCloudinary = async (file, resourceType) => {
+  const cloudName = "ds65kgmhq";
+  const uploadPreset = "hackathon";
+  
+  const formDataUpload = new FormData();
+  formDataUpload.append("file", file);
+  formDataUpload.append("upload_preset", uploadPreset);
 
-const handleImageUpload=(e)=>{ //to upload multiple images
-  setImage(e.target.files);
-}
+  try {
+    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {
+      method: "POST",
+      body: formDataUpload,
+    });
 
-const handleSubmit = async()=>{
-  const formData = new FormData();
-
-  for (const key in data) {  
-    formData.append(key, data[key]);
-  }  ; 
-  if (pdf) {    //upload pdf into formdata
-    formData.append("pdf", pdf);
-  };
-  for (let i = 0; i < image.length; i++) {   
-    formData.append("image", image[i]); 
+    const data = await response.json();
+    if (data.secure_url) {
+      return data.secure_url;
+    }
+  } catch (error) {
+    console.error("Cloudinary Upload Error:", error);
+    return null;
   }
-  try{
-    const requestData = await fetch("https://hackathon-8k3r.onrender.com/participation",{
-      method:"POST",
-      body: formData,
-    })
+};
+
+const handlePdfUpload = (e) => {
+  setPdf(e.target.files[0]); // Store single PDF file
+};
+
+const handleImageUpload = (e) => {
+  setImage([...e.target.files]); // Store multiple images as an array
+};
+
+const handleSubmit = async () => {
+  let imageUrls = [];
+  let pdfUrl = "";
+
+  try {
+    // Upload all images
+    for (let i = 0; i < image.length; i++) {
+      const url = await uploadToCloudinary(image[i], "raw"); // "raw" for images too
+      if (url) imageUrls.push(url);
+    }
+
+    // Upload PDF
+    if (pdf) {
+      pdfUrl = await uploadToCloudinary(pdf, "raw"); // "raw" for PDFs
+    }
+
+    // Create formData
+    const formData = {
+      user_id: parseInt(data.user_id),
+      competition_name: data.competition_name,
+      college: data.college,
+      date: data.date,
+      certificates: imageUrls.join(","), // Store images as comma-separated string
+      report: pdfUrl || " ", // Store PDF URL
+    };
+
+    // Send data to backend
+    const requestData = await fetch("https://hackathon-8k3r.onrender.com/participation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+
     const resData = await requestData.json();
-    if (requestData.ok){
+    if (requestData.ok) {
       console.log(resData);
-      alert("Particiption Details stored Successfully !");
+      alert("Participation Details Stored Successfully!");
       setAdd(false);
       window.location.reload();
-     }else{
-     console.log("Error storing participation details", resData);
-     alert("Unable to store participation details");
-     setAdd(false);
-     }
-}catch(error){
-  console.log(error);
-  alert("Unable to store participation details");
-}
-}
+    } else {
+      console.log("Error storing participation details", resData);
+      alert("Unable to store participation details");
+      setAdd(false);
+    }
+  } catch (error) {
+    console.log(error);
+    alert("Unable to store participation details");
+  }
+};
 
 
   return (

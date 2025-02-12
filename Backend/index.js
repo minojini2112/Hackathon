@@ -2,30 +2,14 @@ const express = require("express")
 const { PrismaClient } = require("@prisma/client")
 const bcrypt = require("bcrypt")
 const multer = require('multer');
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cors = require("cors");
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'hackathons',
-    resource_type: 'raw',
-  },
-});
 const allowedOrigins = [
   'https://hackathon-tau-ashen.vercel.app',
   'http://localhost:5173',
   'https://hackathon-1-j9qr.onrender.com',
 ];
 
-// Dynamic CORS function to allow multiple origins
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -41,23 +25,13 @@ const corsOptions = {
   optionsSuccessStatus: 200, // Fixes preflight issues in some browsers
 };
 
-
-
-/*const corsOptions = {
-  origin: ['https://hackathon-1-j9qr.onrender.com', 'http://localhost:5173'],  
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-};*/
-
 const app = express()
 const prisma = new PrismaClient();
-const upload = multer({ storage });
 
 app.use(cors(corsOptions)); 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(upload.none()); // Parses FormData (excluding files)
+app.use(upload.none()); 
 
 app.post("/signin", async (req, res) => {
   console.log("Hello")
@@ -201,19 +175,13 @@ app.get("/getprofile/:user_id", async (req, res) => {
 });
 
 
-app.post("/participation", upload.fields([{ name: 'image', maxCount: 5 }, { name: 'pdf', maxCount: 1 }]), async (req, res) => {
+app.post("/participation", async (req, res) => {
   const data = req.body;
   
   try {
     if (!data.user_id || !data.competition_name || !data.college || !data.date) {
       return res.status(400).json({ message: "All Fields are required" });
     }
-
-    const imageUrls = req.files['image']
-      ? req.files['image'].map(file => file.path).join(', ')
-      : '';
-
-    const pdfUrl = req.files['pdf'] && req.files['pdf'][0] ? req.files['pdf'][0].path : null;
 
     const profileData = await prisma.profile.findUnique({
       where:{
@@ -230,8 +198,8 @@ app.post("/participation", upload.fields([{ name: 'image', maxCount: 5 }, { name
           competition_name: data.competition_name,
           college: data.college,
           date: data.date,
-          certificates: imageUrls,
-          report: pdfUrl,
+          certificates: data.certificates || " ",
+          report: data.report || " ",
           year: profileData.year,
         },
       });
@@ -270,7 +238,7 @@ app.get("/getparticipation/:user_id",async (req,res)=>{
 });
 
 app.post("/addPost",async (req,res)=>{
-  
+
   console.log("Received Body:", req.body);
   const data = req.body;
   try{
