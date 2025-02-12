@@ -271,7 +271,6 @@ app.get("/getparticipation/:user_id",async (req,res)=>{
 
 app.post("/addPost",async (req,res)=>{
   console.log(req.body)
-  console.log(req.data)
   const data = req.body;
   try{
     const postData = await prisma.post.create({
@@ -282,8 +281,8 @@ app.post("/addPost",async (req,res)=>{
         fromDate: data.fromDate,
         toDate: data.toDate,
         registrationLimit: parseInt(data.registrationLimit),
-        pdf: documentUrl || " ",
-        image: imageUrls || " ",
+        pdf: data.pdf || " ",
+        image: data.image || " ",
         registeredNumber: parseInt(0),
       },
     }).catch(err => {

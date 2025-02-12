@@ -22,7 +22,7 @@ const Spost = () => {
     const formDataUpload = new FormData();
     formDataUpload.append("file", file);
     formDataUpload.append("upload_preset", uploadPreset);
-    formDataUpload.append("resource_type", type === "pdf" ? "raw" : "image"); 
+    formDataUpload.append("resource_type", type === "raw"); 
 
     try {
         const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
@@ -32,63 +32,68 @@ const Spost = () => {
 
         const data = await response.json();
         if (data.secure_url) {
-            // Update state with the Cloudinary URL
-            setFormData(prevState => ({
-                ...prevState,
-                [type]: data.secure_url  // Update 'image' or 'pdf' field
-            }));
+            return data.secure_url; 
         }
     } catch (error) {
         console.error("Cloudinary Upload Error:", error);
+        return null;
     }
 };
 
-  const handleChange = (e) => {
+const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (files) {
-      setFormData({ ...formData, [name]: files[0] }); 
+    if (files && files.length > 0) {
+        setFormData({ ...formData, [name]: files[0] }); 
     } else {
-      setFormData({ ...formData, [name]: value });
+        setFormData({ ...formData, [name]: value });
     }
-  };
-  
-  const handleSubmit = async () => {
-    const input = new FormData();
-    console.log("form data",formData);
-  
-    for (const key in formData) {
-      if (key === 'image' || key === 'pdf') {
-          const file = formData[key];
+};
 
-          // Upload to Cloudinary and get the URL
-          const url = await uploadToCloudinary(file, key);
-          input.append(key, url);
-      } else {
-          input.append(key, formData[key]);
-      }
-       
+const handleSubmit = async () => {
+  console.log("Initial formData:", formData);
+
+  let updatedFormData = { ...formData };
+
+  if (formData.image instanceof File) {
+      const imageUrl = await uploadToCloudinary(formData.image, "image");
+      if (imageUrl) updatedFormData.image = imageUrl;
   }
-  console.log("input",input);
-    try {
-      const response = await fetch("http://localhost:3027/addPost", {
-        method: "POST",
-        body: input ,
-      });      
-  
-      if (response.ok) {
-        const data = await response.json();
-        console.log("post details",data.data);
-        alert('Post added successfully!');
-        navigate("/dashboard");
-      } else {
-        const errorMessage = await response.text();
-        console.error(`Server Error: ${errorMessage}`);
-        alert(`Failed to add profile details: ${errorMessage}`);
-      }
-    } catch (error) {
-      console.error('Fetch error:', error); 
+
+  if (formData.pdf instanceof File) {
+      const pdfUrl = await uploadToCloudinary(formData.pdf, "pdf");
+      if (pdfUrl) updatedFormData.pdf = pdfUrl;
+  }
+
+  console.log("Updated formData before sending:", updatedFormData);
+
+  // ✅ Create a FormData instance and append updatedFormData values
+  const input = new FormData();
+  for (const key in updatedFormData) {
+      input.append(key, updatedFormData[key]);
+  }
+
+  console.log("Final payload (FormData):", input);
+
+  try {
+    const response = await fetch("http://localhost:3005/addPost", {
+      method: "POST",
+      body: input,  // ✅ Corrected this
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log("Post details:", data.data);
+      alert('Post added successfully!');
+      navigate("/dashboard");
+    } else {
+      const errorMessage = await response.text();
+      console.error(`Server Error: ${errorMessage}`);
+      alert(`Failed to add profile details: ${errorMessage}`);
     }
-  };
+  } catch (error) {
+    console.error('Fetch error:', error);
+  }
+};
 
   return (
     <div className="flex items-center md:ml-[250px] justify-center bg-[#cceef9]">
