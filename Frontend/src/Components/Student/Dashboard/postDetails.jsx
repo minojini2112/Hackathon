@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 const PostDetails = () => {
@@ -159,7 +159,7 @@ const PostDetails = () => {
         </tr>
       </thead>
       <tbody>
-        {studentlist.map((student, index) => (
+        {studentlist.map((student) => (
           student && (
             <tr
               key={student.user_id}
