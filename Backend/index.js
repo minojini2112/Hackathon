@@ -270,13 +270,13 @@ app.get("/getparticipation/:user_id",async (req,res)=>{
 
 app.post("/addPost",upload.fields([{ name: 'image', maxCount: 5 }, { name: 'pdf', maxCount: 1 }]),async (req,res)=>{
   const data = req.body;
-
+  console.log("data passed:",req);
   const imageUrls = req.files['image']
   ? req.files['image'].map(file => file.path).join(', ')
   : '';
 
 const documentUrl = req.files['pdf'] && req.files['pdf'][0] ? req.files['pdf'][0].path : null;
-
+  
   try{
     const postData = await prisma.post.create({
       data: {
@@ -286,8 +286,8 @@ const documentUrl = req.files['pdf'] && req.files['pdf'][0] ? req.files['pdf'][0
         fromDate: data.fromDate,
         toDate: data.toDate,
         registrationLimit: parseInt(data.registrationLimit),
-        pdf: documentUrl,
-        image: imageUrls,
+        pdf: documentUrl || " ",
+        image: imageUrls || " ",
         registeredNumber: parseInt(0),
       },
     }).catch(err => {
@@ -432,6 +432,6 @@ app.get("/getNotifications", async(req,res)=>{
    }
 });
 
-app.listen(3027, () => {
-  console.log("Server is running on port 3027");
+app.listen(3005, () => {
+  console.log("Server is running on port 3005");
 });
