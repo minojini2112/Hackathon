@@ -11,7 +11,37 @@ const Spost = () => {
     fromDate: "",
     toDate: "",
     registrationLimit: "",
+    image:"",
+    pdf:""
   });
+
+  const uploadToCloudinary = async (file, type) => {
+    const cloudName = "ds65kgmhq";
+    const uploadPreset = "hackathon"; 
+
+    const formDataUpload = new FormData();
+    formDataUpload.append("file", file);
+    formDataUpload.append("upload_preset", uploadPreset);
+    formDataUpload.append("resource_type", type === "pdf" ? "raw" : "image"); 
+
+    try {
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+            method: "POST",
+            body: formDataUpload,
+        });
+
+        const data = await response.json();
+        if (data.secure_url) {
+            // Update state with the Cloudinary URL
+            setFormData(prevState => ({
+                ...prevState,
+                [type]: data.secure_url  // Update 'image' or 'pdf' field
+            }));
+        }
+    } catch (error) {
+        console.error("Cloudinary Upload Error:", error);
+    }
+};
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -24,17 +54,23 @@ const Spost = () => {
   
   const handleSubmit = async () => {
     const input = new FormData();
+    console.log("form data",formData);
   
     for (const key in formData) {
       if (key === 'image' || key === 'pdf') {
-        input.append(key, formData[key]);
+          const file = formData[key];
+
+          // Upload to Cloudinary and get the URL
+          const url = await uploadToCloudinary(file, key);
+          input.append(key, url);
       } else {
-        input.append(key, formData[key]);
+          input.append(key, formData[key]);
       }
-    }  
-  
+       
+  }
+  console.log("input",input);
     try {
-      const response = await fetch("https://hackathon-8k3r.onrender.com/addPost", {
+      const response = await fetch("http://localhost:3027/addPost", {
         method: "POST",
         body: input ,
       });      
