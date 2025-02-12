@@ -18,22 +18,23 @@ const Spost = () => {
   const uploadToCloudinary = async (file) => {
     const cloudName = "ds65kgmhq";
     const uploadPreset = "hackathon";
+    const folder = "hackathons"; // Ensures PDFs go inside this folder
 
     const formDataUpload = new FormData();
     formDataUpload.append("file", file);
     formDataUpload.append("upload_preset", uploadPreset);
-
-    const resourceType = "raw"; 
+    formDataUpload.append("resource_type", "raw"); // Add resource type here
+    formDataUpload.append("folder", folder); // Uploads to 'hackathons' folder
 
     try {
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, { // Corrected URL
             method: "POST",
             body: formDataUpload,
         });
 
         const data = await response.json();
         if (data.secure_url) {
-            return data.secure_url;
+            return data.secure_url.replace(/\.pdf$/, ""); 
         }
     } catch (error) {
         console.error("Cloudinary Upload Error:", error);

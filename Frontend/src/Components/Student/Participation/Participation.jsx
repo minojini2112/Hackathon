@@ -51,7 +51,7 @@ const uploadToCloudinary = async (file, resourceType) => {
   formDataUpload.append("upload_preset", uploadPreset);
 
   try {
-    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {
+    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
       method: "POST",
       body: formDataUpload,
     });
