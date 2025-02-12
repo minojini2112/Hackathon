@@ -60,6 +60,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.post("/signin", async (req, res) => {
+  console.log("Hello")
   const { email, password, role } = req.body;
   try {
     const isuserexist = await prisma.user.findUnique({
@@ -268,15 +269,10 @@ app.get("/getparticipation/:user_id",async (req,res)=>{
   
 });
 
-app.post("/addPost",upload.fields([{ name: 'image', maxCount: 5 }, { name: 'pdf', maxCount: 1 }]),async (req,res)=>{
+app.post("/addPost",async (req,res)=>{
+  console.log(req.body)
+  console.log(req.data)
   const data = req.body;
-  console.log("data passed:",req);
-  const imageUrls = req.files['image']
-  ? req.files['image'].map(file => file.path).join(', ')
-  : '';
-
-const documentUrl = req.files['pdf'] && req.files['pdf'][0] ? req.files['pdf'][0].path : null;
-  
   try{
     const postData = await prisma.post.create({
       data: {
@@ -327,6 +323,7 @@ try{
       id : parseInt(post_id),
     },
   });
+  
   return res.status(200).json({message:"Post details fetched",data:postData});
 }catch(error){
   console.log("An error occured",error);

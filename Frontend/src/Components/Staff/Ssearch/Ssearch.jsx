@@ -201,7 +201,7 @@ const Ssearch = () => {
                       No data found.
                     </td>
                   </tr>
-                )}
+                )}  
               </tbody>
             </table>
             </div>
