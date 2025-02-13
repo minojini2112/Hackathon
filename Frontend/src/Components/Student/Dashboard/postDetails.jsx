@@ -225,97 +225,107 @@ const PostDetails = () => {
         alt="Post"
         className="w-1/2 h-auto rounded-lg shadow-lg"
       />
-      <div className="mt-4 md:ml-10">
-        <h1 className="mb-6 text-xl font-bold md:text-3xl">{postdata.description}</h1>
-        <p className="mb-4">
-          <strong>From:</strong> {postdata.fromDate}
-        </p>
-        <p className="mb-4">
-          <strong>To:</strong> {postdata.toDate}
-        </p>
-        <p className="mb-4">
-          <strong>Registration Limit:</strong> {postdata.registrationLimit}
-        </p>
-        {role == "staff" ? (
-  <p>
-    <strong className="text-gray-700">Registered Number:</strong>{" "}
-    <button
-      onClick={() => {
-        fetchList(postdata.id);
-        setShow((prev) => !prev);
-      }}
-      className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
-    >
-      {postdata.registeredNumber}
-    </button>
+      <div className="mt-6 md:ml-12 p-6 bg-white shadow-md rounded-lg">
+  <h1 className="mb-6 text-2xl font-bold md:text-4xl text-gray-800">
+    {postdata.description}
+  </h1>
+  
+  <p className="mb-4 text-gray-700">
+    <strong>From:</strong> {postdata.fromDate}
   </p>
-) : (
-  <div className="flex items-center justify-start gap-3">
-    {registered ? (
-      <p className="p-1 px-4 mb-2 text-lg font-medium text-white bg-green-500 rounded-xl w-fit">
-        Registered
-      </p>
-    ) : days < 0 ? (
-      <p className="p-1 px-4 mb-2 text-lg font-medium text-white bg-red-500 rounded-xl w-fit">
-       Expired
-      </p>
-    ) : (
-      <>
-        <div className="flex items-center justify-start gap-2">
-          <label className="font-medium">Register</label>
-          <input
-            type="checkbox"
-            onClick={() => {
-              setChecked((prev) => !prev);
-            }}
-          />
-        </div>
+  
+  <p className="mb-4 text-gray-700">
+    <strong>To:</strong> {postdata.toDate}
+  </p>
+  
+  <p className="mb-4 text-gray-700">
+    <strong>Registration Limit:</strong> {postdata.registrationLimit}
+  </p>
 
-        <button
-          className="px-4 py-2 text-white bg-blue-600 rounded-lg ml-[10px]"
-          onClick={() => {
-            if (checked) {
-              handleRegistration();
-            } else {
-              alert("Please select the checkbox");
-            }
-          }}
-        >
-          Confirm Registration
-        </button>
-      </>
-    )}
-  </div>
-)}
-        <p className="mb-4">
-          <strong>Document:</strong>{" "}
-<a
-  href={`https://docs.google.com/gview?url=${encodeURIComponent(postdata.pdf)}&embedded=true`}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="bg-blue-500 text-white p-2 rounded px-4"
->
-  View PDF
-</a>
-           </p>
-        <p className="mb-4">
-          <strong>Link:</strong>{" "}
-          <a
-            href={postdata.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 underline"
-          >
-            {postdata.link}
-          </a>
+  {role === "staff" ? (
+    <p className="text-gray-700">
+      <strong>Registered Number:</strong>{" "}
+      <button
+        onClick={() => {
+          fetchList(postdata.id);
+          setShow((prev) => !prev);
+        }}
+        className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-all"
+      >
+        {postdata.registeredNumber}
+      </button>
+    </p>
+  ) : (
+    <div className="flex items-center justify-start gap-4">
+      {registered ? (
+        <p className="p-2 px-4 mb-2 text-lg font-semibold text-white bg-green-500 rounded-xl">
+          Registered
         </p>
-        <button
-          onClick={() => navigate(-1)}
-          className="px-4 py-2 mt-6 text-white bg-blue-600 rounded-lg"
-        >
-          Back to Dashboard
-        </button>
-      </div>
+      ) : days < 0 ? (
+        <p className="p-2 px-4 mb-2 text-lg font-semibold text-white bg-red-500 rounded-xl">
+          Expired
+        </p>
+      ) : (
+        <>
+          <div className="flex items-center gap-2">
+            <label className="font-medium text-gray-700">Register</label>
+            <input
+              type="checkbox"
+              onClick={() => {
+                setChecked((prev) => !prev);
+              }}
+              className="w-5 h-5 accent-blue-600"
+            />
+          </div>
+
+          <button
+            className="px-5 py-2 text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition-all"
+            onClick={() => {
+              if (checked) {
+                handleRegistration();
+              } else {
+                alert("Please select the checkbox");
+              }
+            }}
+          >
+            Confirm Registration
+          </button>
+        </>
+      )}
+    </div>
+  )}
+
+  <p className="mb-4 text-gray-700">
+    <strong>Document:</strong>{" "}
+    <a
+      href={`https://docs.google.com/gview?url=${encodeURIComponent(postdata.pdf)}&embedded=true`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 font-semibold hover:underline"
+    >
+      View PDF
+    </a>
+  </p>
+
+  <p className="mb-4 text-gray-700">
+    <strong>Link:</strong>{" "}
+    <a
+      href={postdata.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-blue-600 font-semibold hover:underline"
+    >
+      {postdata.link}
+    </a>
+  </p>
+
+  <button
+    onClick={() => navigate(-1)}
+    className="px-5 py-2 mt-6 text-white bg-blue-600 rounded-lg shadow-md hover:bg-blue-700 transition-all"
+  >
+    Back to Dashboard
+  </button>
+</div>
     </div>
   );
 };

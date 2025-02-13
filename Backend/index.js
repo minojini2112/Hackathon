@@ -103,12 +103,10 @@ app.post("/login", async (req, res) => {
 });
 
 // Create Profile Route
-app.post("/profile/:user_id", upload.single('image'), async (req, res) => {
+app.post("/profile/:user_id", async (req, res) => {
   const { user_id } = req.params;
   const data = req.body;
 
-  try {
-   const imageUrl = req.file?.path || data.image; // Use existing image if no new file
    const profileExists = await prisma.profile.findUnique({
     where:{
       user_id: parseInt(user_id),
@@ -130,7 +128,7 @@ app.post("/profile/:user_id", upload.single('image'), async (req, res) => {
         class_incharge: data.class_incharge || null,
         placement_head: data.placement_head || null,
         batch: data.batch || null,
-        image: imageUrl || null,
+        image: data.image || null,
         },
       })
       return res.status(200).json({message:"Profile Updated Successfully",data:updateProfile});

@@ -17,6 +17,7 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
     image:null,
     user_id: userId
   });
+  const [loading , setLoading] = useState(false);
 
   useEffect(() => {
     if (profileData) {
@@ -47,54 +48,90 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
     if (!formData.image) return 'Please select a file to upload.';
     return null;
   };
-    const handleSubmit = async (e) => {
-    e.preventDefault();
+  const uploadProfilePicture = async (file) => {
+    const imageKitUrl = "https://upload.imagekit.io/api/v1/files/upload";
+    const privateApiKey = "private_a23TYqkGKJR/3VlG/eB/eY7Xn0s="; 
+    const folder = "profile"; 
 
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("fileName", file.name);
+    formData.append("folder", folder);
+  
+    try {
+      const response = await fetch(imageKitUrl, {
+        method: "POST",
+        headers: {
+          Authorization: `Basic ${btoa(privateApiKey + ":")}`, 
+        },
+        body: formData,
+      });
+  
+      const data = await response.json();
+  
+      if (data.url) {
+        return data.url;
+      } else {
+        console.error("ImageKit Upload Failed:", data);
+        return null;
+      }
+    } catch (error) {
+      console.error("ImageKit Upload Error:", error);
+      return null;
+    }
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+  
     const errorMessage = validateForm();
     if (errorMessage) {
       alert(errorMessage);
+      setLoading(false);
       return;
     }
-
-   const input = new FormData();
-    for (const key in formData) {
-      if (key === 'image' && formData[key] instanceof File) {
-        input.append(key, formData[key]);
-      } else {
-        input.append(key, formData[key]);
-      }
-    }
-
-
- /*const handleSubmit = async () => {
-    const input = new FormData();
-    for (const key in formData) {
-      if (key === 'image' && formData[key] instanceof File) {
-        input.append(key, formData[key]);
-      } else {
-        input.append(key, formData[key]);
-      }
-    }*/
   
     try {
+      let profilePicUrl = "";
+      
+      if (formData.image && formData.image instanceof File) {
+        profilePicUrl = await uploadProfilePicture(formData.image);
+        if (!profilePicUrl) {
+          alert("Failed to upload profile picture.");
+          setLoading(false);
+          return;
+        }
+      }
+        const updatedFormData = {
+        ...formData,
+        image: profilePicUrl, 
+      };
+  
       const response = await fetch(`https://hackathon-8k3r.onrender.com/profile/${userId}`, {
-        method: 'POST',
-        body: input,
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedFormData),
       });
   
       if (response.ok) {
         const data = await response.json();
         setProfileData(data.data);
-        alert('Profile details added successfully!');
+        alert("Profile details added successfully!");
         window.location.reload();
       } else {
         const errorMessage = await response.text();
         console.error(`Server Error: ${errorMessage}`);
+        alert("Error updating profile.");
       }
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error("Fetch error:", error);
+      alert("Error updating profile.");
+    } finally {
+      setLoading(false);
     }
   };
+  
   
   return (
     <div className="flex items-center justify-center bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] sm:p-6 md:ml-[250px] ">
@@ -254,9 +291,9 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
         <div className="flex justify-end mt-6 sm:justify-end sm:mt-8">
           <button
             type="submit"
-            className="px-6 py-2 text-white bg-[#039ee3] rounded-md shadow-md hover:bg-[#0288d1] "
+            className="px-6 py-2 text-white bg-[#039ee3] rounded-md shadow-md hover:bg-[#0288d1] flex items-center justify-center gap-2"
           >
-            Save Changes
+            Save Changes {loading && <div className="loader"></div>} 
           </button>
         </div>
       </form>
