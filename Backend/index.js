@@ -102,58 +102,69 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Create Profile Route
 app.post("/profile/:user_id", async (req, res) => {
-  const { user_id } = req.params;
-  const data = req.body;
+  try {
+    const { user_id } = req.params;
+    const data = req.body;
 
-   const profileExists = await prisma.profile.findUnique({
-    where:{
-      user_id: parseInt(user_id),
-    }
-   })
-   if (profileExists){
-      const updateProfile =  await prisma.profile.update({
-        where:{
+    const profileExists = await prisma.profile.findUnique({
+      where: {
+        user_id: parseInt(user_id),
+      },
+    });
+
+    if (profileExists) {
+      const updateProfile = await prisma.profile.update({
+        where: {
           user_id: parseInt(user_id),
         },
-        data:{
-        name: data.name,
-        department: data.department,
-        year: data.year,
-        section: data.section,
-        register_number: data.register_number,
-        roll_no: data.roll_no,
-        staff_incharge: data.staff_incharge || null,
-        class_incharge: data.class_incharge || null,
-        placement_head: data.placement_head || null,
-        batch: data.batch || null,
-        image: data.image || null,
+        data: {
+          name: data.name,
+          department: data.department,
+          year: data.year,
+          section: data.section,
+          register_number: data.register_number,
+          roll_no: data.roll_no,
+          staff_incharge: data.staff_incharge || null,
+          class_incharge: data.class_incharge || null,
+          placement_head: data.placement_head || null,
+          batch: data.batch || null,
+          image: data.image || null, 
         },
-      })
-      return res.status(200).json({message:"Profile Updated Successfully",data:updateProfile});
-   }else{
+      });
+
+      return res.status(200).json({
+        message: "Profile Updated Successfully",
+        data: updateProfile,
+      });
+    } else {
       const newProfile = await prisma.profile.create({
-        data:{
+        data: {
           user_id: parseInt(user_id),
-        name: data.name,
-        department: data.department,
-        year: data.year,
-        section: data.section,
-        register_number: data.register_number,
-        roll_no: data.roll_no,
-        staff_incharge: data.staff_incharge || null,
-        class_incharge: data.class_incharge || null,
-        placement_head: data.placement_head || null,
-        batch: data.batch || null,
-        image: imageUrl || null,
+          name: data.name,
+          department: data.department,
+          year: data.year,
+          section: data.section,
+          register_number: data.register_number,
+          roll_no: data.roll_no,
+          staff_incharge: data.staff_incharge || null,
+          class_incharge: data.class_incharge || null,
+          placement_head: data.placement_head || null,
+          batch: data.batch || null,
+          image: data.image || null, 
         },
-      })
-      return res.status(200).json({message:"Profile created successfully",data:newProfile})
-   }
+      });
+
+      return res.status(200).json({
+        message: "Profile created successfully",
+        data: newProfile,
+      });
+    }
   } catch (error) {
     console.error("Error updating profile:", error);
-    return res.status(500).json({ message: error.message || "Internal Server Error" });
+    return res.status(500).json({
+      message: error.message || "Internal Server Error",
+    });
   }
 });
 
