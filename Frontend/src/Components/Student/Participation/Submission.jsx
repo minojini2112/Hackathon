@@ -1,4 +1,5 @@
 const Submission = (props) => {
+
     return (
       <div className="flex flex-col justify-center items-center gap-4 border-black rounded-lg border-[3px] shadow-xl md:w-[80%] w-[90%] mx-auto p-4">
         <div className="w-[100%] flex justify-start items-center gap-3 border-blue-950 border-2 p-2  rounded-lg">
@@ -64,12 +65,12 @@ const Submission = (props) => {
         </div>
         <div>
           <button
-            className="p-2 px-4 bg-[#0e2f44] text-white text-lg font-medium hover:bg-[#244960] rounded-lg"
+            className="p-2 px-4 bg-[#0e2f44] text-white text-lg font-medium hover:bg-[#244960] rounded-lg flex gap-2 justify-center items-center"
             onClick={() => {
               props.submit();
             }} 
           >
-            Submit
+            Submit {props.loading && <div className="loader"></div>} 
           </button>
         </div>
       </div>

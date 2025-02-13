@@ -94,7 +94,7 @@ const History = (props) => {
                 <i className="mr-2 fa-solid fa-file-lines fa-xl"></i>Report
               </p>
               <iframe
-                src={`https://docs.google.com/gview?url=${value.report}&embedded=true`}
+                src={`https://docs.google.com/gview?url=${encodeURIComponent(value.report)}&embedded=true`}
                 width="50%"
                 height="400px"
                 className="mx-auto"

@@ -14,30 +14,38 @@ const Spost = () => {
     image:"",
     pdf:""
   });
+  const [loading , setLoading] = useState(false);
 
-  const uploadToCloudinary = async (file) => {
-    const cloudName = "ds65kgmhq";
-    const uploadPreset = "hackathon";
-    const folder = "hackathons"; // Ensures PDFs go inside this folder
+  const uploadToImageKit = async (file) => {
+    const imageKitUrl = "https://upload.imagekit.io/api/v1/files/upload";
+    const publicKey = "public_6kJneatr5fav9ZtBuae6vKPtm1k="; 
+    const privateApiKey = "private_a23TYqkGKJR/3VlG/eB/eY7Xn0s="; 
+    const folder = "post";
 
     const formDataUpload = new FormData();
     formDataUpload.append("file", file);
-    formDataUpload.append("upload_preset", uploadPreset);
-    formDataUpload.append("resource_type", "raw"); 
-    formDataUpload.append("folder", folder); 
+    formDataUpload.append("fileName", file.name);
+    formDataUpload.append("folder", folder);
 
     try {
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, { 
+        const response = await fetch(imageKitUrl, {
             method: "POST",
+            headers: {
+                Authorization: `Basic ${btoa(privateApiKey + ":")}`, // Basic Auth
+            },
             body: formDataUpload,
         });
 
         const data = await response.json();
-        if (data.secure_url) {
-            return data.secure_url.replace(/\.pdf$/, ""); 
+
+        if (data.url) {
+            return data.url;
+        } else {
+            console.error("ImageKit Upload Failed:", data);
+            return null;
         }
     } catch (error) {
-        console.error("Cloudinary Upload Error:", error);
+        console.error("ImageKit Upload Error:", error);
         return null;
     }
 };
@@ -53,16 +61,16 @@ const handleChange = (e) => {
 
 const handleSubmit = async () => {
   console.log("Initial formData:", formData);
-
+ setLoading(true);
   let updatedFormData = { ...formData };
 
   if (formData.image instanceof File) {
-      const imageUrl = await uploadToCloudinary(formData.image, "image");
+      const imageUrl = await uploadToImageKit(formData.image, "image");
       if (imageUrl) updatedFormData.image = imageUrl;
   }
 
   if (formData.pdf instanceof File) {
-      const pdfUrl = await uploadToCloudinary(formData.pdf, "pdf");
+      const pdfUrl = await uploadToImageKit(formData.pdf, "pdf");
       if (pdfUrl) updatedFormData.pdf = pdfUrl;
   }
 
@@ -93,6 +101,8 @@ const handleSubmit = async () => {
     }
   } catch (error) {
     console.error('Fetch error:', error);
+  }finally{
+    setLoading(false)
   }
 };
 
@@ -196,9 +206,9 @@ const handleSubmit = async () => {
         <div className="flex justify-end mt-6">
           <button onClick={(e)=> {e.preventDefault();handleSubmit();}}
             type="submit"
-            className="px-6 py-2 text-white bg-[#039ee3] rounded-md shadow-md hover:bg-[#0288d1]"
+            className="px-6 py-2 text-white bg-[#039ee3] rounded-md shadow-md hover:bg-[#0288d1] flex justify-center items-center gap-2"
           >
-            Submit Post
+            Submit Post {loading && <div className="loader"></div>} 
           </button>
         </div>
       </div>

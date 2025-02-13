@@ -42,28 +42,37 @@ const Participation = () => {
     });
 }
 
-const uploadToCloudinary = async (file, resourceType) => {
-  const cloudName = "ds65kgmhq";
-  const uploadPreset = "hackathon";
-  
+const uploadToImageKit = async (file) => {
+  const imageKitUrl = "https://upload.imagekit.io/api/v1/files/upload";
+  const publicKey = "public_6kJneatr5fav9ZtBuae6vKPtm1k="; 
+  const privateApiKey = "private_a23TYqkGKJR/3VlG/eB/eY7Xn0s="; 
+  const folder = "participation";
+
   const formDataUpload = new FormData();
   formDataUpload.append("file", file);
-  formDataUpload.append("upload_preset", uploadPreset);
-  formDataUpload.append("resource_type", resourceType); 
+  formDataUpload.append("fileName", file.name);
+  formDataUpload.append("folder", folder);
 
   try {
-    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
-      method: "POST",
-      body: formDataUpload,
-    });
+      const response = await fetch(imageKitUrl, {
+          method: "POST",
+          headers: {
+              Authorization: `Basic ${btoa(privateApiKey + ":")}`, // Basic Auth
+          },
+          body: formDataUpload,
+      });
 
-    const data = await response.json();
-    if (data.secure_url) {
-      return data.secure_url;
-    }
+      const data = await response.json();
+
+      if (data.url) {
+          return data.url;
+      } else {
+          console.error("ImageKit Upload Failed:", data);
+          return null;
+      }
   } catch (error) {
-    console.error("Cloudinary Upload Error:", error);
-    return null;
+      console.error("ImageKit Upload Error:", error);
+      return null;
   }
 };
 
@@ -78,17 +87,17 @@ const handleImageUpload = (e) => {
 const handleSubmit = async () => {
   let imageUrls = [];
   let pdfUrl = "";
-
+setLoading(true);
   try {
     // Upload all images
     for (let i = 0; i < image.length; i++) {
-      const url = await uploadToCloudinary(image[i], "raw"); // "raw" for images too
+      const url = await uploadToImageKit(image[i], "raw"); // "raw" for images too
       if (url) imageUrls.push(url);
     }
 
     // Upload PDF
     if (pdf) {
-      pdfUrl = await uploadToCloudinary(pdf, "raw"); // "raw" for PDFs
+      pdfUrl = await uploadToImageKit(pdf, "raw"); // "raw" for PDFs
     }
 
     // Create formData
@@ -122,11 +131,12 @@ const handleSubmit = async () => {
   } catch (error) {
     console.log(error);
     alert("Unable to store participation details");
+  }finally{
+    setLoading(false);
   }
 };
 
-
-  return (
+return (
     <div className="p-4 space-y-4 w-[100%] md:w-[80%] md:ml-[250px]">
       <div className="text-[#0e2f44] font-bold text-2xl text-center">
         Participation Details
@@ -148,6 +158,7 @@ const handleSubmit = async () => {
           pdfUpload ={handlePdfUpload}
           imageUpload ={handleImageUpload}
           submit ={handleSubmit}
+          loading={loading}
         />
       )}
     </div>

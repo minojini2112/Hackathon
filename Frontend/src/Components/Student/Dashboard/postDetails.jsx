@@ -1,5 +1,7 @@
 import  { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Worker, Viewer } from '@react-pdf-viewer/core';
+
 
 const PostDetails = () => {
   const { id } = useParams();
@@ -10,7 +12,8 @@ const PostDetails = () => {
   const [show, setShow] = useState(false);
   const [registered , setRegistered]= useState(false);
   const [days, setDays] = useState(null);
-
+  const [PDFView, setPDFView] = useState(false);
+ 
   const navigate = useNavigate();
   const user_id = localStorage.getItem("user_id");
   const role = localStorage.getItem("role");
@@ -75,7 +78,15 @@ const PostDetails = () => {
       fetchRegistered();
     }
   }, []);
-  //const post = posts.find((p) => p.id === parseInt(id));
+  const PdfViewer = ({ pdfUrl }) => {
+    return(
+      <Worker workerUrl="https://unpkg.com/pdfjs-dist/build/pdf.worker.min.js">
+        <Viewer fileUrl={pdfUrl} />
+      </Worker>
+    )
+      };
+    
+    
 
   const fetchList = async (post_id) => {
     console.log("Button clicked");
@@ -141,7 +152,7 @@ const PostDetails = () => {
               ></i>
             </div>
             <div className="w-full mx-auto my-auto">
-  {/* Table for larger screens */}
+
   <div className="hidden md:block">
     <table className="w-full text-center border border-collapse border-gray-300 rounded-lg shadow-lg">
       <thead className="bg-gray-200">
@@ -183,7 +194,6 @@ const PostDetails = () => {
     </table>
   </div>
 
-  {/* Card format for mobile screens */}
   <div className="block space-y-4 md:hidden">
     {studentlist.map((student, index) => (
       student && (
@@ -279,15 +289,15 @@ const PostDetails = () => {
 )}
         <p className="mb-4">
           <strong>Document:</strong>{" "}
-          <a
-            href={`https://docs.google.com/gview?url=${postdata.pdf}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-600 underline"
-          >
-            view document
-          </a>
-        </p>
+<a
+  href={`https://docs.google.com/gview?url=${encodeURIComponent(postdata.pdf)}&embedded=true`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="bg-blue-500 text-white p-2 rounded px-4"
+>
+  View PDF
+</a>
+           </p>
         <p className="mb-4">
           <strong>Link:</strong>{" "}
           <a
