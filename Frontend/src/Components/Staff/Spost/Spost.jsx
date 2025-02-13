@@ -23,11 +23,11 @@ const Spost = () => {
     const formDataUpload = new FormData();
     formDataUpload.append("file", file);
     formDataUpload.append("upload_preset", uploadPreset);
-    formDataUpload.append("resource_type", "raw"); // Add resource type here
-    formDataUpload.append("folder", folder); // Uploads to 'hackathons' folder
+    formDataUpload.append("resource_type", "raw"); 
+    formDataUpload.append("folder", folder); 
 
     try {
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, { // Corrected URL
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, { 
             method: "POST",
             body: formDataUpload,
         });
