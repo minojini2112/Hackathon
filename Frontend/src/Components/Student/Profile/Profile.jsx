@@ -1,6 +1,5 @@
 import  { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-//import { PencilIcon } from '@heroicons/react/solid';
 
 const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditing })=>{
   const [formData, setFormData] = useState({
@@ -14,7 +13,7 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
     staff_incharge: '',
     class_incharge: '',
     placement_head: '',
-    image:null,
+    image:'',
     user_id: userId
   });
   const [loading , setLoading] = useState(false);
@@ -93,7 +92,7 @@ const EditProfile=({ userId, profileData, setProfileData, setIsEditing, isEditin
     }
   
     try {
-      let profilePicUrl = "";
+      let profilePicUrl = formData.image;
       
       if (formData.image && formData.image instanceof File) {
         profilePicUrl = await uploadProfilePicture(formData.image);
@@ -322,7 +321,6 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
   return (
     <div className="w-full min-h-screen bg-gradient-to-br from-white via-[#e6f5fc] to-[#cceef9] lg:ml-[250px]">
       <div className="flex flex-col w-full max-w-screen-xl p-8 mx-auto md:flex-row">
-        {/* Profile Image & Basic Info*/}
         <div className="flex flex-col items-center justify-center p-8 md:w-1/3">
           <div className="w-[150px] h-[150px] border-4 border-black rounded-full overflow-hidden mb-4">
             <img
@@ -348,7 +346,6 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
             </div>
           </div>
 
-         {/*Incharge Details */}
           <div className="p-6 text-gray-800 rounded-lg shadow-xl">
             <h3 className="text-2xl font-semibold mb-4 border-b-2 border-[#039ee3] pb-2">Incharge</h3>
             <div className="grid grid-cols-1 gap-4">
@@ -360,7 +357,6 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
         </div>
       </div>
 
-    {/* Edit Button */}
       <button
         onClick={() => setIsEditing(true)}
         className="fixed bottom-8 right-8 p-4 bg-[#039ee3] text-white rounded-full shadow-lg hover:bg-[#0288d1] cursor-pointer"
@@ -372,7 +368,6 @@ const DisplayProfile = ({ profileData, setIsEditing }) => {
   );
 };
 
-// ✅ Add PropTypes Validation
 DisplayProfile.propTypes = {
   profileData: PropTypes.shape({
     name: PropTypes.string.isRequired,
@@ -385,6 +380,7 @@ DisplayProfile.propTypes = {
     placement_head: PropTypes.string,
     class_incharge: PropTypes.string,
     staff_incharge: PropTypes.string,
+    image : PropTypes.string,
   }),
   setIsEditing: PropTypes.func.isRequired,
 };
